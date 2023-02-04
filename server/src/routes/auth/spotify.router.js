@@ -34,7 +34,7 @@ spotifyAuthRouter.get(
 spotifyAuthRouter.get(
   '/callback',
   passport.authenticate('spotify', {
-    failureRedirect: '/failure',
+    failureRedirect: '/auth/spotify/failure',
     successRedirect: '/',
     session: false,
   }),
