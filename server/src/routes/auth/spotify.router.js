@@ -16,7 +16,7 @@ const AUTH_OPTIONS = {
 }
 
 function verifyCallback(accessToken, refreshToken, profile, done) {
-  console.log('Spotify profile', profile)
+  console.log('Spotify profile', accessToken)
   done(null, profile)
 }
 
