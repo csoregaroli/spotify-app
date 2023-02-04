@@ -1,0 +1,20 @@
+{
+  "name": "spotify-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csoregaroli/spotify-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csoregaroli/spotify-app/issues"
+  },
+  "homepage": "https://github.com/csoregaroli/spotify-app#readme"
+}
