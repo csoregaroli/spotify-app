@@ -2,12 +2,17 @@ const express = require('express')
 const passport = require('passport')
 const SpotifyStrategy = require('passport-spotify').Strategy
 
-const spotifyAuthRouter = express.Router()
+require('dotenv').config()
+
+const config = {
+  SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
+  SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
+}
 
 const AUTH_OPTIONS = {
-  callbackUrl: '',
-  clientId: '',
-  clientSecret: '',
+  callbackURL: 'http://localhost:8000/auth/spotify/callback',
+  clientID: config.SPOTIFY_CLIENT_ID,
+  clientSecret: config.SPOTIFY_CLIENT_SECRET,
 }
 
 function verifyCallback(accessToken, refreshToken, profile, done) {
@@ -17,10 +22,12 @@ function verifyCallback(accessToken, refreshToken, profile, done) {
 
 passport.use(new SpotifyStrategy(AUTH_OPTIONS, verifyCallback))
 
+const spotifyAuthRouter = express.Router()
+
 spotifyAuthRouter.get(
   '/',
   passport.authenticate('spotify', {
-    scope: '',
+    scope: ['user-read-email', 'user-read-private'],
   })
 )
 
