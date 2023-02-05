@@ -2,9 +2,9 @@ import axios from 'axios'
 
 import { url } from '../constants/routes'
 
-export const getCurrentUser = async () => {
-  const user = await axios.get(url + '/user', { withCredentials: true })
-  console.log('from req', user)
-  //   const user = await response.json()
-  return user
+export const getAuthUser = async () => {
+  const response = await axios.get(url + '/user', { withCredentials: true })
+  return response
 }
+
+export const getCurrentUser = async () => {}

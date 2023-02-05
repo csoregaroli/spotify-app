@@ -1,9 +1,9 @@
 const express = require('express')
 
-const { httpGetCurrentUser } = require('./user.controller')
+const { httpGetAuthUser } = require('./user.controller')
 
 const userRouter = express.Router()
 
-userRouter.get('/', httpGetCurrentUser)
+userRouter.get('/', httpGetAuthUser)
 
 module.exports = userRouter

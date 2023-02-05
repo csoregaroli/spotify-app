@@ -4,7 +4,7 @@ const SpotifyStrategy = require('passport-spotify').Strategy
 require('dotenv').config()
 
 const {
-  createUserDocumentFromAuth,
+  getUserDocumentFromAuth,
   getUserById,
 } = require('../../models/user.model')
 
@@ -20,7 +20,7 @@ const AUTH_OPTIONS = {
 }
 
 async function verifyCallback(accessToken, refreshToken, profile, done) {
-  const user = await createUserDocumentFromAuth(profile)
+  const user = await getUserDocumentFromAuth(profile)
   done(null, user)
 }
 

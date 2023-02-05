@@ -10,10 +10,10 @@ const AppPages = () => {}
 const AppRoot = () => {
   const { currentUser, isLoading } = useContext(UserContext)
 
-  console.log(isLoading)
   console.log(currentUser)
+  console.log(isLoading)
 
-  return <div>Hello world</div>
+  return <div>Hello World</div>
 }
 
 const App = () => {
