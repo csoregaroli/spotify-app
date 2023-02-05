@@ -18,7 +18,7 @@ async function createUserDocumentFromAuth(profile) {
         displayName,
         provider,
         username,
-        photos: photos[0].value,
+        photo: photos[0].value,
         followers,
         email: emails[0].value,
         created: new Date(),
