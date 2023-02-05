@@ -7,7 +7,8 @@ const session = require('express-session')
 
 require('dotenv').config()
 
-const auth = require('./routes/auth/auth')
+const { auth, checkAuthentication } = require('./routes/auth/auth')
+const api = require('./routes/api')
 
 const app = express()
 
@@ -21,27 +22,20 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
+    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
   })
 )
 app.use(passport.initialize())
 app.use(passport.session())
 
-function ensureAuthentication(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-  return res.status(401).json({
-    error: 'You must log in',
-  })
-}
-
 app.use('/auth', auth)
+app.use('/api', api)
 
 app.get('/', (req, res) => {
   res.send('Hello')
 })
 
-app.get('/secret', ensureAuthentication, (req, res) => {
+app.get('/secret', checkAuthentication, (req, res) => {
   res.send('This is the secret page tehe')
 })
 
