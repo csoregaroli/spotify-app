@@ -20,7 +20,6 @@ const AUTH_OPTIONS = {
 }
 
 async function verifyCallback(accessToken, refreshToken, profile, done) {
-  console.log(profile)
   const user = await createUserDocumentFromAuth(profile)
   done(null, user)
 }
@@ -50,7 +49,7 @@ spotifyAuthRouter.get(
   '/callback',
   passport.authenticate('spotify', {
     failureRedirect: '/auth/spotify/failure',
-    session: false,
+    session: true,
   }),
   (req, res) => {
     res.redirect('/')
