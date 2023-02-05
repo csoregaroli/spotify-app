@@ -28,7 +28,16 @@ async function createUserDocumentFromAuth(profile) {
     }
   }
 
-  return userRef
+  return userSnapshot
 }
 
-module.exports = { createUserDocumentFromAuth }
+async function getUserById(id) {
+  if (!id) return
+
+  const userDocRef = doc(db, 'users', id)
+  const userSnapshot = await getDoc(userDocRef)
+
+  return userSnapshot
+}
+
+module.exports = { createUserDocumentFromAuth, getUserById }
