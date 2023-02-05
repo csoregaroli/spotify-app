@@ -1,6 +1,7 @@
-import { useState, useEffect, createContext } from 'react'
+import { useState, useEffect, createContext, useContext } from 'react'
 
 import { getCurrentUser } from '../api/reads'
+import { AuthUserContext } from './AuthUserContext'
 
 export const UserContext = createContext({
   setCurrentUser: () => null,
@@ -12,17 +13,20 @@ export const UserContext = createContext({
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const { authUser } = useContext(AuthUserContext)
 
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await getCurrentUser('csoregaroli')
+      if (!authUser) return
+
+      const response = await getCurrentUser(authUser)
       const user = { id: 'csoregaroli', ...response }
       setCurrentUser(user)
       setIsLoading(false)
     }
 
     fetchUser()
-  }, [])
+  }, [authUser])
 
   const value = { currentUser, setCurrentUser, isLoading }
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>
