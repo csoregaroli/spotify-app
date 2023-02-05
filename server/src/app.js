@@ -4,7 +4,7 @@ const cors = require('cors')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const passport = require('passport')
-const session = require('express-session')
+const cookieSession = require('cookie-session')
 
 require('dotenv').config()
 
@@ -20,11 +20,10 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, '..', 'public')))
 
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
+  cookieSession({
+    keys: [process.env.SESSION_SECRET],
+    name: 'session',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   })
 )
 app.use(passport.initialize())
