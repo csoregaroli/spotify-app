@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
@@ -16,6 +17,7 @@ app.use(helmet())
 app.use(cors({ origin: 'http://localhost:3000' }))
 app.use(morgan('combined'))
 app.use(express.json())
+app.use(express.static(path.join(__dirname, '..', 'public')))
 
 app.use(
   session({
@@ -32,7 +34,7 @@ app.use('/auth', auth)
 app.use('/api', api)
 
 app.get('/', (req, res) => {
-  res.send('Hello')
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
 })
 
 app.get('/secret', checkAuthentication, (req, res) => {

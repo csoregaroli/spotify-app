@@ -2,7 +2,7 @@ const { getUserById } = require('../../models/user.model')
 
 async function httpGetCurrentUser(req, res) {
   const id = req.user?.id
-
+  console.log(req.user)
   if (!id) {
     return res.status(200).json(null)
   }
