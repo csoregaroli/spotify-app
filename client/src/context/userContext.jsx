@@ -15,7 +15,8 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const user = await getCurrentUser()
+      const response = await getCurrentUser('csoregaroli')
+      const user = { id: 'csoregaroli', ...response }
       setCurrentUser(user)
       setIsLoading(false)
     }
