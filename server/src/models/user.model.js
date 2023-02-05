@@ -2,7 +2,7 @@ const { getDoc, setDoc, doc } = require('firebase/firestore')
 
 const db = require('../services/firebase')
 
-async function createUserDocumentFromAuth(profile) {
+async function getUserDocumentFromAuth(profile) {
   if (!profile) return
 
   const userRef = doc(db, 'users', profile.id)
@@ -40,4 +40,4 @@ async function getUserById(id) {
   return userSnapshot
 }
 
-module.exports = { createUserDocumentFromAuth, getUserById }
+module.exports = { getUserDocumentFromAuth, getUserById }

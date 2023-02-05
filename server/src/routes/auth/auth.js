@@ -16,6 +16,7 @@ function checkAuthentication(req, res, next) {
 auth.use('/spotify', spotifyAuthRouter)
 
 auth.get('/signout', (req, res) => {
+  req.logout()
   return res.redirect('/')
 })
 
