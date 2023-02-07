@@ -1,9 +1,11 @@
 import SpotifyButton from './SpotifyButton'
 
-const AuthPrompt = () => {
+const AuthPrompt = ({ copy }) => {
+  const { header, subheader, buttonCta } = copy || {}
+
   return (
     <div>
-      <SpotifyButton cta={'Sign up with Spotify'} />
+      <SpotifyButton cta={buttonCta} />
     </div>
   )
 }

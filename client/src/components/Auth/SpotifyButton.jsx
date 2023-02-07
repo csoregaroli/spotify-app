@@ -1,30 +1,21 @@
-import { useState } from 'react'
 import { Fab } from '@mui/material'
 import SpotifyIconWhite from '../../assets/SpotifyIconWhite.svg'
 
 const SpotifyButton = ({ cta }) => {
-  const [isHovered, setIsHovered] = useState(false)
-
-  const textColor = isHovered ? '' : ''
+  const spotifyGreen = '#1DB954'
 
   const fabStyle = {
-    bgcolor: '#1DB954',
+    bgcolor: spotifyGreen,
     '&:hover': {
-      bgcolor: '#FFFFFF',
+      bgcolor: '#169b45',
     },
   }
 
-  const handleHover = () => {
-    setIsHovered(!isHovered)
-  }
-
   return (
-    <div onMouseEnter={handleHover} onMouseLeave={handleHover}>
-      <Fab variant='extended' sx={{ ...fabStyle }}>
-        <img src={SpotifyIconWhite} alt='Spotify Logo' />
-        <div style={{ marginLeft: '8px', color: '#FFFFFF' }}>{cta}</div>
-      </Fab>
-    </div>
+    <Fab variant='extended' sx={{ ...fabStyle }}>
+      <img src={SpotifyIconWhite} alt='Spotify Logo' />
+      <div style={{ marginLeft: '8px', color: '#FFFFFF' }}>{cta}</div>
+    </Fab>
   )
 }
 

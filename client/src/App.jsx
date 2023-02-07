@@ -20,6 +20,7 @@ const AppPages = () => {
   return (
     <Routes>
       <Route path={ROUTES.SIGNIN} element={<Auth />} />
+      <Route path={ROUTES.SIGNUP} element={<Auth />} />
       <Route path={ROUTES.HOME} element={<Dashboard />} />
     </Routes>
   )
