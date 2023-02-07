@@ -6,13 +6,10 @@ import { AuthUserContext } from './AuthUserContext'
 export const UserContext = createContext({
   setCurrentUser: () => null,
   currentUser: null,
-  setIsLoading: () => null,
-  isLoading: null,
 })
 
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
   const { authUser } = useContext(AuthUserContext)
 
   useEffect(() => {
@@ -22,12 +19,11 @@ export const UserProvider = ({ children }) => {
       const response = await getCurrentUser(authUser)
       const user = { id: 'csoregaroli', ...response }
       setCurrentUser(user)
-      setIsLoading(false)
     }
 
     fetchUser()
   }, [authUser])
 
-  const value = { currentUser, setCurrentUser, isLoading }
+  const value = { currentUser, setCurrentUser }
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
