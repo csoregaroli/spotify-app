@@ -38,12 +38,8 @@ app.use(passport.session())
 app.use('/auth', auth)
 app.use('/api', api)
 
-app.get('/', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
-})
-
-app.get('/secret', checkAuthentication, (req, res) => {
-  res.send('This is the secret page tehe')
 })
 
 module.exports = app
