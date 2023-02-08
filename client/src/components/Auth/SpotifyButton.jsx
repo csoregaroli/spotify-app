@@ -13,7 +13,7 @@ const SpotifyButton = ({ cta }) => {
     },
   }
 
-  const handleClick = async () => {
+  const handleClick = () => {
     window.location.replace(authUrl + '/spotify')
   }
 
