@@ -8,7 +8,7 @@ const cookieSession = require('cookie-session')
 
 require('dotenv').config()
 
-const { auth, checkAuthentication } = require('./routes/auth/auth')
+const { auth, checkAuthentication } = require('./routes/auth/auth.router')
 const api = require('./routes/api')
 
 const app = express()

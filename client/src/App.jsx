@@ -9,7 +9,13 @@ import { UserContext, UserProvider } from './context/UserContext'
 import { Auth, Dashboard } from './pages'
 
 const AuthPages = () => {
-  return <div>this is the auth page</div>
+  return (
+    <Routes>
+      <Route path='*' element={<Navigate to={ROUTES.SIGNIN} replace />} />
+      <Route path={ROUTES.SIGNIN} element={<Auth />} />
+      <Route path={ROUTES.SIGNUP} element={<Auth />} />
+    </Routes>
+  )
 }
 
 const AppPages = () => {
@@ -19,9 +25,15 @@ const AppPages = () => {
 
   return (
     <Routes>
-      <Route path={ROUTES.SIGNIN} element={<Auth />} />
-      <Route path={ROUTES.SIGNUP} element={<Auth />} />
       <Route path={ROUTES.HOME} element={<Dashboard />} />
+      <Route
+        path={ROUTES.SIGNUP}
+        element={<Navigate to={ROUTES.HOME} replace />}
+      />
+      <Route
+        path={ROUTES.SIGNIN}
+        element={<Navigate to={ROUTES.HOME} replace />}
+      />
     </Routes>
   )
 }
