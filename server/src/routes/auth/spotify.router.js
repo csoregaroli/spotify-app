@@ -19,6 +19,14 @@ const AUTH_OPTIONS = {
   clientSecret: config.SPOTIFY_CLIENT_SECRET,
 }
 
+const SCOPES = [
+  'user-read-email',
+  'user-read-private',
+  'user-top-read',
+  'user-read-recently-played',
+  'user-read-playback-state',
+]
+
 async function verifyCallback(accessToken, refreshToken, profile, done) {
   const user = await getUserDocumentFromAuth(profile)
   done(null, user)
@@ -41,7 +49,7 @@ const spotifyAuthRouter = express.Router()
 spotifyAuthRouter.get(
   '/',
   passport.authenticate('spotify', {
-    scope: ['user-read-email', 'user-read-private'],
+    scope: SCOPES,
   })
 )
 
