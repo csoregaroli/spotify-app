@@ -25,7 +25,12 @@ const UserAvatar = (props) => {
 
   return (
     <div>
-      <Avatar src={photo} alt={firstName} onClick={handleClick} />
+      <Avatar
+        src={photo}
+        alt={firstName}
+        onClick={handleClick}
+        style={{ cursor: 'pointer' }}
+      />
       <Popover
         id={popoverId}
         open={isOpen}
@@ -51,8 +56,10 @@ export const Header = () => {
   const firstName = displayName.split(' ')[0]
 
   return (
-    <div>
-      <Typography variant='h5'>Hi {firstName}!</Typography>
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant='h5'>Hi {firstName}!</Typography>
+      </div>
       <UserAvatar photo={photo} firstName={firstName} />
     </div>
   )
