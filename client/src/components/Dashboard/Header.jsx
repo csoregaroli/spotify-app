@@ -1,6 +1,48 @@
-import { useContext } from 'react'
-import { Typography, Avatar } from '@mui/material'
+import { useState, useContext } from 'react'
+import { Typography, Avatar, Popover, Button, Box } from '@mui/material'
 import { UserContext } from '../../context/UserContext'
+
+import { authUrl } from '../../constants/routes'
+
+const UserAvatar = (props) => {
+  const { photo, firstName } = props
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const isOpen = Boolean(anchorEl)
+  const popoverId = isOpen ? 'popover' : undefined
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleSignOut = () => {
+    window.location.replace(authUrl + '/signout')
+  }
+
+  return (
+    <div>
+      <Avatar src={photo} alt={firstName} onClick={handleClick} />
+      <Popover
+        id={popoverId}
+        open={isOpen}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <Box>
+          <Button onClick={handleSignOut}>Sign out</Button>
+        </Box>
+      </Popover>
+    </div>
+  )
+}
 
 export const Header = () => {
   const { currentUser } = useContext(UserContext)
@@ -11,7 +53,7 @@ export const Header = () => {
   return (
     <div>
       <Typography variant='h5'>Hi {firstName}!</Typography>
-      <Avatar />
+      <UserAvatar photo={photo} firstName={firstName} />
     </div>
   )
 }
