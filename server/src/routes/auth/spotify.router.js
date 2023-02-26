@@ -1,6 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const SpotifyStrategy = require('passport-spotify').Strategy
+
 require('dotenv').config()
 
 const {
@@ -17,6 +18,7 @@ const AUTH_OPTIONS = {
   callbackURL: 'http://localhost:8000/auth/spotify/callback',
   clientID: config.SPOTIFY_CLIENT_ID,
   clientSecret: config.SPOTIFY_CLIENT_SECRET,
+  passReqToCallback: true,
 }
 
 const SCOPES = [
@@ -27,8 +29,12 @@ const SCOPES = [
   'user-read-playback-state',
 ]
 
-async function verifyCallback(accessToken, refreshToken, profile, done) {
+async function verifyCallback(req, accessToken, refreshToken, profile, done) {
+  req.session.accessToken = accessToken
+  req.session.refreshToken = refreshToken
   const user = await getUserDocumentFromAuth(profile)
+  // const authUser = { accessToken, user }
+  // console.log(authUser.user.id, authUser.accessToken)
   done(null, user)
 }
 

@@ -1,4 +1,4 @@
-import { Fab } from '@mui/material'
+import { Box, Fab } from '@mui/material'
 import SpotifyIconWhite from '../../assets/SpotifyIconWhite.svg'
 
 import { authUrl } from '../../constants/routes'
@@ -20,7 +20,7 @@ const SpotifyButton = ({ cta }) => {
   return (
     <Fab variant='extended' sx={{ ...fabStyle }} onClick={handleClick}>
       <img src={SpotifyIconWhite} alt='Spotify Logo' />
-      <div style={{ marginLeft: '8px', color: '#FFFFFF' }}>{cta}</div>
+      <Box sx={{ marginLeft: '8px', color: '#FFFFFF' }}>{cta}</Box>
     </Fab>
   )
 }
