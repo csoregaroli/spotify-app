@@ -1,4 +1,5 @@
 import { Button } from '@mui/material'
+import { Header } from '../components/Dashboard'
 
 import { authUrl } from '../constants/routes'
 
@@ -9,7 +10,7 @@ const handleSignOut = () => {
 export const Dashboard = () => {
   return (
     <div>
-      Dashboard Page
+      <Header />
       <Button onClick={handleSignOut}>Sign out</Button>
     </div>
   )
