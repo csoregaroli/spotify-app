@@ -1,30 +1,30 @@
 const axios = require('axios')
-const SPOTIFY_API_PLAYER_URL = 'https://api.spotify.com/v1/me/player'
+
+//SPOTIFY ENDPOINTS
+const SPOTIFY_PLAYER_URL = 'https://api.spotify.com/v1/me/player'
+const SPOTIFY_TOP_URL = 'https://api.spotify.com/v1/me/top'
 
 async function httpGetCurrentTrack(req, res) {
   const accessToken = req.session.accessToken
   console.log(accessToken)
 
-  const response = await axios.get(
-    SPOTIFY_API_PLAYER_URL + '/currently-playing',
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  )
+  const response = await axios.get(SPOTIFY_PLAYER_URL + '/currently-playing', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  })
 
   if (response.status === 200) {
     const { data } = response
     const { item, is_playing } = data
-
     const trackName = item.name
     const imageUrl = item.album.images[1].url
+    const isPlaying = is_playing
+    const artistsResponse = item.artists
 
     //Get artists from response
     let artists = []
-    const artistsResponse = data.item.artists
     artistsResponse.forEach((artist) => {
       artists.push(artist.name)
     })
@@ -34,7 +34,7 @@ async function httpGetCurrentTrack(req, res) {
       artists,
       trackName,
       imageUrl,
-      isPlaying: is_playing,
+      isPlaying,
     }
 
     return res.status(200).json(currentTrack)
@@ -43,4 +43,28 @@ async function httpGetCurrentTrack(req, res) {
   return res.status(400).json({ error: 'Could not fetch track' })
 }
 
-module.exports = { httpGetCurrentTrack }
+async function httpGetTopTracks(req, res) {
+  const accessToken = req.session.accessToken
+  const { limit, time_range } = req.query
+  console.log(limit, time_range)
+
+  const response = await axios.get(
+    SPOTIFY_TOP_URL + `/tracks?limit=${limit}&time_range=${time_range}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  )
+
+  console.log(response.data)
+
+  return res.status(200).json(response.data)
+}
+
+async function httpGetTopArtists() {
+  return
+}
+
+module.exports = { httpGetCurrentTrack, httpGetTopTracks, httpGetTopArtists }
