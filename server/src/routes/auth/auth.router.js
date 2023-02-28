@@ -1,6 +1,6 @@
 const express = require('express')
 
-const spotifyAuthRouter = require('./spotify.router')
+const spotifyAuthRouter = require('./spotifyAuth.router')
 
 const auth = express.Router()
 

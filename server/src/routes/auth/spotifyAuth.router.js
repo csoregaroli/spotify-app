@@ -33,8 +33,6 @@ async function verifyCallback(req, accessToken, refreshToken, profile, done) {
   req.session.accessToken = accessToken
   req.session.refreshToken = refreshToken
   const user = await getUserDocumentFromAuth(profile)
-  // const authUser = { accessToken, user }
-  // console.log(authUser.user.id, authUser.accessToken)
   done(null, user)
 }
 
