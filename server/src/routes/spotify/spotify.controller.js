@@ -21,9 +21,9 @@ async function httpGetCurrentTrack(req, res) {
     const imageUrl = item.album.images[1].url
     const isPlaying = is_playing
     const artistsResponse = item.artists
-
-    //Get artists from response
     let artists = []
+
+    //Set artists from response
     artistsResponse.forEach((artist) => {
       artists.push(artist.name)
     })
@@ -45,10 +45,15 @@ async function httpGetCurrentTrack(req, res) {
 async function httpGetTopItems(req, res) {
   const accessToken = req.session.accessToken
   const { type } = req.params
-  const { limit, time_range } = req.query
+  let { limit, time_range } = req.query
 
-  if (!limit || !time_range)
-    return res.status(400).json({ error: 'missing request parameter' })
+  const VALID_TYPES = ['tracks', 'artists']
+
+  if (!limit) limit = 10
+  if (!time_range) time_range = 'medium_term'
+
+  if (!VALID_TYPES.includes(type))
+    return res.status(400).json({ error: 'invalid type' })
 
   const response = await axios.get(
     SPOTIFY_TOP_URL + `/${type}?limit=${limit}&time_range=${time_range}`,
@@ -59,15 +64,16 @@ async function httpGetTopItems(req, res) {
       },
     }
   )
+
   const { items } = response.data
 
   if (type === 'tracks') {
     const topTracks = items.map((item) => {
       const name = item.name
       const imageUrl = item.album.images[1].url
-
-      //set artists
       let artists = []
+
+      //Set artists
       item.artists.forEach((artist) => {
         artists.push(artist.name)
       })
@@ -80,7 +86,6 @@ async function httpGetTopItems(req, res) {
 
       return track
     })
-
     return res.status(200).json(topTracks)
   }
 
@@ -98,7 +103,6 @@ async function httpGetTopItems(req, res) {
 
       return artist
     })
-
     return res.status(200).json(topArtists)
   }
 }
