@@ -64,7 +64,6 @@ async function httpGetTopItems(req, res) {
       },
     }
   )
-
   const { items } = response.data
 
   if (type === 'tracks') {
