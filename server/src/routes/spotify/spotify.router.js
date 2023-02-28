@@ -1,15 +1,10 @@
 const express = require('express')
 
-const {
-  httpGetCurrentTrack,
-  httpGetTopTracks,
-  httpGetTopArtists,
-} = require('./spotify.controller')
+const { httpGetCurrentTrack, httpGetTopItems } = require('./spotify.controller')
 
 const spotifyRouter = express.Router()
 
 spotifyRouter.get('/current-track', httpGetCurrentTrack)
-spotifyRouter.get('/top-tracks', httpGetTopTracks)
-spotifyRouter.get('/top-artists', httpGetTopArtists)
+spotifyRouter.get('/top/:type', httpGetTopItems)
 
 module.exports = spotifyRouter

@@ -42,15 +42,16 @@ async function httpGetCurrentTrack(req, res) {
   return res.status(400).json({ error: 'Could not fetch track' })
 }
 
-async function httpGetTopTracks(req, res) {
+async function httpGetTopItems(req, res) {
   const accessToken = req.session.accessToken
+  const { type } = req.params
   const { limit, time_range } = req.query
 
   if (!limit || !time_range)
     return res.status(400).json({ error: 'missing request parameter' })
 
   const response = await axios.get(
-    SPOTIFY_TOP_URL + `/tracks?limit=${limit}&time_range=${time_range}`,
+    SPOTIFY_TOP_URL + `/${type}?limit=${limit}&time_range=${time_range}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -60,32 +61,46 @@ async function httpGetTopTracks(req, res) {
   )
   const { items } = response.data
 
-  const topTracks = items.map((item) => {
-    const name = item.name
-    const imageUrl = item.album.images[1].url
+  if (type === 'tracks') {
+    const topTracks = items.map((item) => {
+      const name = item.name
+      const imageUrl = item.album.images[1].url
 
-    //set artists
-    let artists = []
-    item.artists.forEach((artist) => {
-      artists.push(artist.name)
+      //set artists
+      let artists = []
+      item.artists.forEach((artist) => {
+        artists.push(artist.name)
+      })
+
+      const track = {
+        name,
+        imageUrl,
+        artists,
+      }
+
+      return track
     })
 
-    const track = {
-      name,
-      imageUrl,
-      artists,
-    }
+    return res.status(200).json(topTracks)
+  }
 
-    return track
-  })
+  if (type === 'artists') {
+    const topArtists = items.map((item) => {
+      const name = item.name
+      const imageUrl = item.images[1].url
+      const followers = item.followers.total
 
-  console.log(topTracks)
+      const artist = {
+        name,
+        imageUrl,
+        followers,
+      }
 
-  return res.status(200).json(response.data)
+      return artist
+    })
+
+    return res.status(200).json(topArtists)
+  }
 }
 
-async function httpGetTopArtists() {
-  return
-}
-
-module.exports = { httpGetCurrentTrack, httpGetTopTracks, httpGetTopArtists }
+module.exports = { httpGetCurrentTrack, httpGetTopItems }
