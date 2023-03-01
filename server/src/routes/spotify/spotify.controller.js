@@ -45,12 +45,10 @@ async function httpGetCurrentTrack(req, res) {
 async function httpGetTopItems(req, res) {
   const accessToken = req.session.accessToken
   const { type } = req.params
-  let { limit, time_range } = req.query
+  const limit = req.query.limit || 10
+  const time_range = req.query.time_range || 'medium_term'
 
   const VALID_TYPES = ['tracks', 'artists']
-
-  if (!limit) limit = 10
-  if (!time_range) time_range = 'medium_term'
 
   if (!VALID_TYPES.includes(type))
     return res.status(400).json({ error: 'invalid type' })
@@ -86,9 +84,7 @@ async function httpGetTopItems(req, res) {
       return track
     })
     return res.status(200).json(topTracks)
-  }
-
-  if (type === 'artists') {
+  } else if (type === 'artists') {
     const topArtists = items.map((item) => {
       const name = item.name
       const imageUrl = item.images[1].url
