@@ -6,7 +6,6 @@ const SPOTIFY_TOP_URL = 'https://api.spotify.com/v1/me/top'
 
 async function httpGetCurrentTrack(req, res) {
   const accessToken = req.session.accessToken
-  console.log('spotifyController', req.session.accessToken)
 
   if (!accessToken)
     return res.status(401).json({ error: 'no access token provided' })
