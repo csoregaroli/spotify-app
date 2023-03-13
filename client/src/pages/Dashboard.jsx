@@ -1,9 +1,10 @@
-import { Header } from '../components/Dashboard'
+import { Header, CurrentlyPlaying } from '../components/Dashboard'
 
 export const Dashboard = () => {
   return (
     <div>
       <Header />
+      <CurrentlyPlaying />
     </div>
   )
 }

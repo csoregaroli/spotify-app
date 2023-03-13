@@ -1,6 +1,6 @@
 async function httpGetAuthUser(req, res) {
   const id = req.user?.id
-  console.log(req.session.accessToken)
+  console.log('userController', req.session)
 
   if (!id) return res.status(200).json(null)
 

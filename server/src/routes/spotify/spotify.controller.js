@@ -6,7 +6,10 @@ const SPOTIFY_TOP_URL = 'https://api.spotify.com/v1/me/top'
 
 async function httpGetCurrentTrack(req, res) {
   const accessToken = req.session.accessToken
-  console.log(accessToken)
+  console.log('spotifyController', req.session.accessToken)
+
+  if (!accessToken)
+    return res.status(401).json({ error: 'no access token provided' })
 
   const response = await axios.get(SPOTIFY_PLAYER_URL + '/currently-playing', {
     headers: {
@@ -49,6 +52,9 @@ async function httpGetTopItems(req, res) {
   const time_range = req.query.time_range || 'medium_term'
 
   const VALID_TYPES = ['tracks', 'artists']
+
+  if (!accessToken)
+    return res.status(401).json({ error: 'invalid access token' })
 
   if (!VALID_TYPES.includes(type))
     return res.status(400).json({ error: 'invalid type' })

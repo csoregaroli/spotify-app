@@ -30,6 +30,7 @@ app.use(
     keys: [process.env.SESSION_SECRET],
     name: 'session',
     maxAge: 7 * 24 * 60 * 60 * 1000,
+    domain: 'localhost',
   })
 )
 app.use(passport.initialize())
