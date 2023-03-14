@@ -1,8 +1,8 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Menu } from 'antd'
 import { MailOutlined } from '@ant-design/icons'
 
-import { HOME, RECOMMENDED, SOCIAL } from '../constants/routes'
+import { HOME, RECOMMENDED, SOCIAL } from '../../constants/routes'
 
 const menuItems = [
   { label: 'Dashboard', key: '1', icon: <MailOutlined /> },
@@ -10,7 +10,7 @@ const menuItems = [
   { label: 'Friends', key: '3', icon: <MailOutlined /> },
 ]
 
-const Navigation = () => {
+const NavMenu = () => {
   const navigate = useNavigate()
 
   const handleClick = ({ key }) => {
@@ -31,17 +31,16 @@ const Navigation = () => {
   }
 
   return (
-    <div style={{ display: 'flex' }}>
-      {/* <Menu
+    <div>
+      <Menu
         style={{ width: 256 }}
         defaultSelectedKeys={['1']}
         mode='inline'
         items={menuItems}
         onClick={handleClick}
-      /> */}
-      <Outlet />
+      />
     </div>
   )
 }
 
-export default Navigation
+export default NavMenu

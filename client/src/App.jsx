@@ -7,7 +7,7 @@ import { AuthUserContext, AuthUserProvider } from './context/AuthUserContext'
 import { UserContext, UserProvider } from './context/UserContext'
 
 import { Auth, Dashboard, Recommended, Social } from './pages'
-import Navigation from './components/Navigation'
+import Navbar from './components/Navbar/Navbar'
 
 const AuthPages = () => {
   return (
@@ -25,22 +25,23 @@ const AppPages = () => {
   if (!currentUser) return 'loading...'
 
   return (
-    <Routes>
-      <Route path={ROUTES.HOME} element={<Navigation />}>
-        <Route index element={<Dashboard />} />
+    <div style={{ display: 'flex' }}>
+      <Navbar />
+      <Routes>
+        <Route path={ROUTES.HOME} element={<Dashboard />} />
         <Route path={ROUTES.RECOMMENDED} element={<Recommended />} />
         <Route path={ROUTES.SOCIAL} element={<Social />} />
-      </Route>
 
-      <Route
-        path={ROUTES.SIGNUP}
-        element={<Navigate to={ROUTES.HOME} replace />}
-      />
-      <Route
-        path={ROUTES.SIGNIN}
-        element={<Navigate to={ROUTES.HOME} replace />}
-      />
-    </Routes>
+        <Route
+          path={ROUTES.SIGNUP}
+          element={<Navigate to={ROUTES.HOME} replace />}
+        />
+        <Route
+          path={ROUTES.SIGNIN}
+          element={<Navigate to={ROUTES.HOME} replace />}
+        />
+      </Routes>
+    </div>
   )
 }
 
