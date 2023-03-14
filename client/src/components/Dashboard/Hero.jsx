@@ -2,12 +2,9 @@ import { useContext } from 'react'
 import { Typography } from '@mui/material'
 import { UserContext } from '../../context/UserContext'
 
-import UserAvatar from '../Header/UserAvatar'
-
-export const Header = () => {
+export const Hero = () => {
   const { currentUser } = useContext(UserContext)
-  const { displayName, photo } = currentUser
-
+  const { displayName } = currentUser
   const firstName = displayName.split(' ')[0]
 
   return (
@@ -15,7 +12,6 @@ export const Header = () => {
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Typography variant='h5'>Hi {firstName}!</Typography>
       </div>
-      <UserAvatar photo={photo} firstName={firstName} />
     </div>
   )
 }

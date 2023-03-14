@@ -17,7 +17,6 @@ const NavMenu = () => {
     switch (key) {
       case '1':
         navigate(HOME)
-        console.log(key)
         break
       case '2':
         navigate(RECOMMENDED)
@@ -33,7 +32,7 @@ const NavMenu = () => {
   return (
     <div>
       <Menu
-        style={{ width: 224 }}
+        style={{ width: 224, border: 'none' }}
         defaultSelectedKeys={['1']}
         items={menuItems}
         onClick={handleClick}

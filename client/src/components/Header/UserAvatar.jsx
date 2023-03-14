@@ -1,13 +1,17 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Popover, Button, Box } from '@mui/material'
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
+import { UserContext } from '../../context/UserContext'
 import { authUrl } from '../../constants/routes'
 
-const UserAvatar = (props) => {
-  const { photo, firstName } = props
+const UserAvatar = () => {
   const [anchorEl, setAnchorEl] = useState(null)
+
+  const { currentUser } = useContext(UserContext)
+  const { displayName, photo } = currentUser
+  const firstName = displayName.split(' ')[0]
 
   const isOpen = Boolean(anchorEl)
   const popoverId = isOpen ? 'popover' : undefined
