@@ -6,7 +6,8 @@ import * as ROUTES from './constants/routes'
 import { AuthUserContext, AuthUserProvider } from './context/AuthUserContext'
 import { UserContext, UserProvider } from './context/UserContext'
 
-import { Auth, Dashboard } from './pages'
+import { Auth, Dashboard, Recommended, Social } from './pages'
+import Navigation from './components/Navigation'
 
 const AuthPages = () => {
   return (
@@ -25,7 +26,12 @@ const AppPages = () => {
 
   return (
     <Routes>
-      <Route path={ROUTES.HOME} element={<Dashboard />} />
+      <Route path={ROUTES.HOME} element={<Navigation />}>
+        <Route index element={<Dashboard />} />
+        <Route path={ROUTES.RECOMMENDED} element={<Recommended />} />
+        <Route path={ROUTES.SOCIAL} element={<Social />} />
+      </Route>
+
       <Route
         path={ROUTES.SIGNUP}
         element={<Navigate to={ROUTES.HOME} replace />}

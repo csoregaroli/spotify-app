@@ -9,3 +9,5 @@ export const SIGNIN = '/signin'
 
 //App Routes
 export const HOME = '/'
+export const RECOMMENDED = '/recommended'
+export const SOCIAL = '/social'
