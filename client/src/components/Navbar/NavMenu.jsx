@@ -26,16 +26,15 @@ const NavMenu = () => {
         navigate(SOCIAL)
         break
       default:
-        navigate()
+        navigate(HOME)
     }
   }
 
   return (
     <div>
       <Menu
-        style={{ width: 256 }}
+        style={{ width: 224 }}
         defaultSelectedKeys={['1']}
-        mode='inline'
         items={menuItems}
         onClick={handleClick}
       />
