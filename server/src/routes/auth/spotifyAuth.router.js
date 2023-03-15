@@ -32,7 +32,6 @@ const SCOPES = [
 async function verifyCallback(req, accessToken, refreshToken, profile, done) {
   req.session.accessToken = accessToken
   req.session.refreshToken = refreshToken
-  console.log(profile)
   const user = await getUserDocumentFromAuth(profile)
   done(null, user)
 }
