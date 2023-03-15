@@ -1,13 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 import { Menu } from 'antd'
-import { MailOutlined } from '@ant-design/icons'
+import {
+  AppstoreOutlined,
+  HeartOutlined,
+  TeamOutlined,
+} from '@ant-design/icons'
 
 import { HOME, RECOMMENDED, SOCIAL } from '../../constants/routes'
 
 const menuItems = [
-  { label: 'Dashboard', key: '1', icon: <MailOutlined /> },
-  { label: 'Recommended', key: '2', icon: <MailOutlined /> },
-  { label: 'Friends', key: '3', icon: <MailOutlined /> },
+  { label: 'Dashboard', key: '1', icon: <AppstoreOutlined /> },
+  { label: 'Recommended', key: '2', icon: <HeartOutlined /> },
+  { label: 'Social', key: '3', icon: <TeamOutlined /> },
 ]
 
 const NavMenu = () => {
@@ -32,7 +36,7 @@ const NavMenu = () => {
   return (
     <div>
       <Menu
-        style={{ width: 224, border: 'none' }}
+        style={{ width: '192px', border: 'none' }}
         defaultSelectedKeys={['1']}
         items={menuItems}
         onClick={handleClick}

@@ -8,7 +8,7 @@ import { UserContext, UserProvider } from './context/UserContext'
 
 import { Auth, Dashboard, Recommended, Social } from './pages'
 import Header from './components/Header/Header'
-import Navbar from './components/Navbar/Navbar'
+import SideNav from './components/SideNav/SideNav'
 
 const AuthPages = () => {
   return (
@@ -26,10 +26,10 @@ const AppPages = () => {
   if (!currentUser) return 'loading...'
 
   return (
-    <div>
-      <Header />
-      <div style={{ display: 'flex' }}>
-        <Navbar />
+    <div style={{ display: 'flex' }}>
+      <SideNav />
+      <div style={{ width: '100%' }}>
+        <Header />
         <Routes>
           <Route path={ROUTES.HOME} element={<Dashboard />} />
           <Route path={ROUTES.RECOMMENDED} element={<Recommended />} />
