@@ -1,5 +1,6 @@
 import { useContext } from 'react'
-import { Typography } from '@mui/material'
+import { Typography } from 'antd'
+
 import { UserContext } from '../../context/UserContext'
 
 export const Hero = () => {
@@ -10,7 +11,9 @@ export const Hero = () => {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant='h5'>Hi {firstName}!</Typography>
+        <Typography.Text strong={true} style={{ fontSize: '24px' }}>
+          Hi {firstName}!
+        </Typography.Text>
       </div>
     </div>
   )

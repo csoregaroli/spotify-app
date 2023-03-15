@@ -10,7 +10,7 @@ const Header = () => {
         marginBottom: '32px',
         display: 'flex',
         justifyContent: 'space-between',
-        height: '32px',
+        height: '48px',
         alignItems: 'center',
         width: '100%',
       }}

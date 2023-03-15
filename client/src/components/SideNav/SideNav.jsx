@@ -9,15 +9,15 @@ const SideNav = () => {
         style={{
           marginLeft: '4px',
           marginBottom: '32px',
-          height: '32px',
+          height: '48px',
           display: 'flex',
-          alignItems: 'end',
+          alignItems: 'center',
         }}
       >
         <img
           src={SongbirdLogo}
           alt='Songbird logo'
-          style={{ maxHeight: '80%' }}
+          style={{ maxHeight: '60%' }}
         />
       </div>
       <NavMenu />
