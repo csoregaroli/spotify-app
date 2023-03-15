@@ -17,6 +17,7 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       'default-src': ["'self'", '*.googleapis.com'],
+      'img-src': ['*'],
     },
   })
 )

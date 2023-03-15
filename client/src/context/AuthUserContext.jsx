@@ -11,11 +11,10 @@ export const AuthUserContext = createContext({
 
 export const AuthUserProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(null)
-  const [loadingAuth, setLoadingAuth] = useState(false)
+  const [loadingAuth, setLoadingAuth] = useState(true)
 
   useEffect(() => {
     const fetchAuth = async () => {
-      setLoadingAuth(true)
       const response = await getAuthUser()
       const auth = response?.data
       setAuthUser(auth)

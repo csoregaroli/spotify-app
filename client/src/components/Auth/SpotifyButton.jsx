@@ -1,15 +1,15 @@
-import { Box, Fab } from '@mui/material'
-import SpotifyIconWhite from '../../assets/SpotifyIconWhite.svg'
+import { Button } from 'antd'
+import SpotifyLogoWhite from '../../assets/SpotifyIcon24.svg'
 
 import { authUrl } from '../../constants/routes'
 
 const SpotifyButton = ({ cta }) => {
   const spotifyGreen = '#1DB954'
 
-  const fabStyle = {
-    bgcolor: spotifyGreen,
+  const buttonStyles = {
+    backgroundColor: spotifyGreen,
     '&:hover': {
-      bgcolor: '#169b45',
+      backgroundColor: '#169b45',
     },
   }
 
@@ -18,10 +18,18 @@ const SpotifyButton = ({ cta }) => {
   }
 
   return (
-    <Fab variant='extended' sx={{ ...fabStyle }} onClick={handleClick}>
-      <img src={SpotifyIconWhite} alt='Spotify Logo' />
-      <Box sx={{ marginLeft: '8px', color: '#FFFFFF' }}>{cta}</Box>
-    </Fab>
+    <Button
+      type='primary'
+      shape='round'
+      size='large'
+      onClick={handleClick}
+      style={buttonStyles}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <img src={SpotifyLogoWhite} alt='Spotify logo' />
+        {cta}
+      </div>
+    </Button>
   )
 }
 

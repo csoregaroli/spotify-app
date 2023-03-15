@@ -6,7 +6,9 @@ import * as ROUTES from './constants/routes'
 import { AuthUserContext, AuthUserProvider } from './context/AuthUserContext'
 import { UserContext, UserProvider } from './context/UserContext'
 
-import { Auth, Dashboard } from './pages'
+import { Auth, Dashboard, Recommended, Social } from './pages'
+import Header from './components/Header/Header'
+import SideNav from './components/SideNav/SideNav'
 
 const AuthPages = () => {
   return (
@@ -24,17 +26,26 @@ const AppPages = () => {
   if (!currentUser) return 'loading...'
 
   return (
-    <Routes>
-      <Route path={ROUTES.HOME} element={<Dashboard />} />
-      <Route
-        path={ROUTES.SIGNUP}
-        element={<Navigate to={ROUTES.HOME} replace />}
-      />
-      <Route
-        path={ROUTES.SIGNIN}
-        element={<Navigate to={ROUTES.HOME} replace />}
-      />
-    </Routes>
+    <div style={{ display: 'flex' }}>
+      <SideNav />
+      <div style={{ width: '100%' }}>
+        <Header />
+        <Routes>
+          <Route path={ROUTES.HOME} element={<Dashboard />} />
+          <Route path={ROUTES.RECOMMENDED} element={<Recommended />} />
+          <Route path={ROUTES.SOCIAL} element={<Social />} />
+
+          <Route
+            path={ROUTES.SIGNUP}
+            element={<Navigate to={ROUTES.HOME} replace />}
+          />
+          <Route
+            path={ROUTES.SIGNIN}
+            element={<Navigate to={ROUTES.HOME} replace />}
+          />
+        </Routes>
+      </div>
+    </div>
   )
 }
 

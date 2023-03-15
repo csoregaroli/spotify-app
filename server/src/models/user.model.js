@@ -1,4 +1,4 @@
-const { getDoc, setDoc, doc } = require('firebase/firestore')
+const { getDoc, setDoc, doc, updateDoc } = require('firebase/firestore')
 
 const db = require('../services/firebase')
 
@@ -26,6 +26,9 @@ async function getUserDocumentFromAuth(profile) {
     } catch (error) {
       console.log('error creating the user')
     }
+  } else {
+    //updates profile photo url
+    await updateDoc(userRef, { photo: profile.photos[0].value })
   }
 
   return userSnapshot
