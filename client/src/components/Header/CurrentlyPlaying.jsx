@@ -1,5 +1,7 @@
 import { Card, Avatar, Typography } from 'antd'
 
+import { useCurrentlyPlaying } from '../../hooks/useCurrentlyPlaying'
+
 const currentTrack = {
   trackName: 'Da Fonk (feat. Joni)',
   artists: ['Mochakk', 'Joni'],
@@ -7,11 +9,19 @@ const currentTrack = {
   isPlaying: true,
 }
 
-const { trackName, artists, imageUrl, isPlaying } = currentTrack
-const artistsString = artists.join(', ')
+// const { trackName, artists, imageUrl, isPlaying } = currentTrack
+// const artistsString = artists.join(', ')
 
 const CurrentlyPlaying = () => {
-  //   console.log(currentlyPlaying)
+  const { currentlyPlayingTrack, isLoading } = useCurrentlyPlaying()
+  console.log(isLoading)
+
+  if (isLoading) return <Card />
+
+  console.log(currentlyPlayingTrack?.trackName)
+  const { trackName, artists, imageUrl, isPlaying } =
+    currentlyPlayingTrack?.data
+  const artistsString = artists.join(', ')
 
   return (
     <Card size='small' style={{ minWidth: '256px' }}>
