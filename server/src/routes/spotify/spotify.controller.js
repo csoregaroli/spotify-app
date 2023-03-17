@@ -39,7 +39,7 @@ async function httpGetCurrentTrack(req, res) {
     }
     return res.status(200).json(currentTrack)
   } else if (response.status === 204) {
-    return res.status(400).json({ error: 'No track currently playing' })
+    return res.status(204).json({ error: 'No track currently playing' })
   }
 
   return res.status(400).json({ error: 'Could not fetch track' })

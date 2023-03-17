@@ -12,8 +12,14 @@ export const useCurrentlyPlaying = () => {
         withCredentials: true,
       })
       console.log('response', response)
+      const { trackName, artists, imageUrl, isPlaying } = response?.data
 
-      setCurrentlyPlayingTrack(response)
+      if (response?.status !== 200) {
+        setCurrentlyPlayingTrack(null)
+        setIsLoading(false)
+      }
+
+      setCurrentlyPlayingTrack({ trackName, artists, imageUrl, isPlaying })
       setIsLoading(false)
     }
     getCurrentlyPlaying()
