@@ -5,7 +5,7 @@ import { useCurrentlyPlaying } from '../../hooks/useCurrentlyPlaying'
 const CurrentlyPlaying = () => {
   const { currentlyPlayingTrack, isLoading } = useCurrentlyPlaying()
 
-  if (isLoading || !currentlyPlayingTrack) return <div></div>
+  if (isLoading || !currentlyPlayingTrack) return <div />
 
   //Set component variables
   const { trackName, artists, imageUrl, isPlaying } = currentlyPlayingTrack
