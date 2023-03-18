@@ -10,39 +10,47 @@ async function httpGetCurrentTrack(req, res) {
   if (!accessToken)
     return res.status(401).json({ error: 'no access token provided' })
 
-  const response = await axios.get(SPOTIFY_PLAYER_URL + '/currently-playing', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-  })
+  try {
+    const response = await axios.get(
+      SPOTIFY_PLAYER_URL + '/currently-playing',
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
 
-  if (response.status === 200) {
-    const { item, is_playing } = response.data
-    const trackName = item.name
-    const imageUrl = item.album.images[1].url
-    const isPlaying = is_playing
-    const artistsResponse = item.artists
-    let artists = []
+    if (response.status === 200) {
+      const { item, is_playing } = response.data
+      const trackName = item.name
+      const imageUrl = item.album.images[1].url
+      const isPlaying = is_playing
+      const artistsResponse = item.artists
+      let artists = []
 
-    //Set artists from response
-    artistsResponse.forEach((artist) => {
-      artists.push(artist.name)
-    })
+      //Set artists from response
+      artistsResponse.forEach((artist) => {
+        artists.push(artist.name)
+      })
 
-    //Set current track
-    const currentTrack = {
-      artists,
-      trackName,
-      imageUrl,
-      isPlaying,
+      //Set current track
+      const currentTrack = {
+        artists,
+        trackName,
+        imageUrl,
+        isPlaying,
+      }
+      return res.status(200).json(currentTrack)
+    } else if (response.status === 204) {
+      return res.status(204).json({ error: 'No track currently playing' })
     }
-    return res.status(200).json(currentTrack)
-  } else if (response.status === 204) {
-    return res.status(204).json({ error: 'No track currently playing' })
-  }
 
-  return res.status(400).json({ error: 'Could not fetch track' })
+    // return res.status(400).json({ error: 'Could not fetch track' })
+  } catch (err) {
+    console.error(err.response.data)
+    return res.status(400).json({ error: 'Could not fetch track' })
+  }
 }
 
 async function httpGetTopItems(req, res) {

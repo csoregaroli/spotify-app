@@ -1,8 +1,8 @@
-import { Avatar, List } from 'antd'
+import { Avatar, List, Typography } from 'antd'
 
 const data = [
   {
-    title: '1',
+    title: 'bla bla bla bla bla',
   },
   {
     title: '2',
@@ -17,21 +17,29 @@ const data = [
 
 const TopItemsList = ({ type }) => {
   return (
-    <div>
-      <List
-        itemLayout='horizontal'
-        dataSource={data}
-        renderItem={(item, index) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={<Avatar src='' />}
-              title={item.title}
-              description={'description'}
-            />
-          </List.Item>
-        )}
-      ></List>
-    </div>
+    <List
+      itemLayout='horizontal'
+      dataSource={data}
+      renderItem={(item, index) => (
+        <List.Item>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar src='' />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                marginLeft: '8px',
+              }}
+            >
+              <Typography.Text strong>test</Typography.Text>
+              <Typography.Text type='secondary' style={{ fontSize: '12px' }}>
+                testing
+              </Typography.Text>
+            </div>
+          </div>
+        </List.Item>
+      )}
+    />
   )
 }
 
