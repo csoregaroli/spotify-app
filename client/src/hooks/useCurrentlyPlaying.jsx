@@ -11,17 +11,18 @@ export const useCurrentlyPlaying = () => {
       const response = await axios.get(spotify_endpoints + '/current-track', {
         withCredentials: true,
       })
-      console.log('response', response)
+
       const { trackName, artists, imageUrl, isPlaying } = response?.data
 
-      if (response?.status !== 200) {
+      if (response?.status === 200) {
+        setCurrentlyPlayingTrack({ trackName, artists, imageUrl, isPlaying })
+      } else {
         setCurrentlyPlayingTrack(null)
-        setIsLoading(false)
       }
 
-      setCurrentlyPlayingTrack({ trackName, artists, imageUrl, isPlaying })
       setIsLoading(false)
     }
+
     getCurrentlyPlaying()
   }, [])
 
