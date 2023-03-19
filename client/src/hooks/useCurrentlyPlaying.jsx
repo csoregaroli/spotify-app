@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { spotify_endpoints } from '../constants/routes'
+import { spotifyEndpoints } from '../constants/routes'
 
 export const useCurrentlyPlaying = () => {
   const [currentlyPlayingTrack, setCurrentlyPlayingTrack] = useState(null)
@@ -8,13 +8,13 @@ export const useCurrentlyPlaying = () => {
 
   useEffect(() => {
     const getCurrentlyPlaying = async () => {
-      const response = await axios.get(spotify_endpoints + '/current-track', {
+      const response = await axios.get(spotifyEndpoints + '/current-track', {
         withCredentials: true,
       })
 
       const { trackName, artists, imageUrl, isPlaying } = response?.data
 
-      if (response?.status === 200) {
+      if (response.status === 200) {
         setCurrentlyPlayingTrack({ trackName, artists, imageUrl, isPlaying })
       } else {
         setCurrentlyPlayingTrack(null)

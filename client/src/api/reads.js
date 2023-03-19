@@ -3,7 +3,7 @@ import { getDoc, doc } from 'firebase/firestore'
 
 import db from './firebase/firebaseConfig'
 
-import { url } from '../constants/routes'
+import { url, spotifyEndpoints } from '../constants/routes'
 
 export const getAuthUser = async () => {
   const response = await axios.get(url + '/user', { withCredentials: true })
@@ -17,4 +17,15 @@ export const getCurrentUser = async (id) => {
   const userSnapshot = await getDoc(userDocRef)
 
   return userSnapshot.data()
+}
+
+export const getTopItems = async (type, limit, timeRange) => {
+  const response = await axios.get(
+    spotifyEndpoints + `/top/${type}?limit=${limit}&time_range=${timeRange}`,
+    {
+      withCredentials: true,
+    }
+  )
+
+  console.log(response)
 }

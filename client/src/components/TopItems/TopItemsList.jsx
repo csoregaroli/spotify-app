@@ -1,6 +1,9 @@
+import { useState, useEffect } from 'react'
 import { Avatar, List, Typography } from 'antd'
 
-const data = [
+import { getTopItems } from '../../api/reads'
+
+const testData = [
   {
     title: 'bla bla bla bla bla',
   },
@@ -24,14 +27,26 @@ const ListHeader = ({ type }) => {
 }
 
 const TopItemsList = ({ type }) => {
+  const [data, setData] = useState({})
   const isTrack = type === 'tracks'
-
   const avatarShape = isTrack ? 'round' : 'square'
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getTopItems(type, 5, 'medium_term')
+
+      if (response.status === 200) {
+        setData(response.data)
+      }
+    }
+
+    fetchData()
+  }, [type])
 
   return (
     <List
       itemLayout='horizontal'
-      dataSource={data}
+      dataSource={testData}
       header={<ListHeader type={type} />}
       style={{ width: '384px' }}
       renderItem={(item) => (

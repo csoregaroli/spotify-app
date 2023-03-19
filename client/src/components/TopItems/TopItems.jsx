@@ -4,7 +4,7 @@ const TopItems = () => {
   return (
     <div>
       <TopItemsList type='tracks' />
-      <TopItemsList type='artists' />
+      {/* <TopItemsList type='artists' /> */}
     </div>
   )
 }
