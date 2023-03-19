@@ -8,7 +8,7 @@ async function httpGetCurrentTrack(req, res) {
   const accessToken = req.session.accessToken
 
   if (!accessToken)
-    return res.status(401).json({ error: 'no access token provided' })
+    return res.status(401).json({ error: 'No access token provided' })
 
   try {
     const response = await axios.get(
@@ -27,7 +27,7 @@ async function httpGetCurrentTrack(req, res) {
       const imageUrl = item.album.images[1].url
       const isPlaying = is_playing
       const artistsResponse = item.artists
-      let artists = []
+      const artists = []
 
       //Set artists from response
       artistsResponse.forEach((artist) => {
@@ -46,7 +46,7 @@ async function httpGetCurrentTrack(req, res) {
       return res.status(204).json({ error: 'No track currently playing' })
     }
 
-    // return res.status(400).json({ error: 'Could not fetch track' })
+    return res.status(400).json({ error: 'Could not fetch track' })
   } catch (err) {
     console.error(err.response.data)
     return res.status(400).json({ error: 'Could not fetch track' })
@@ -82,7 +82,7 @@ async function httpGetTopItems(req, res) {
     const topTracks = items.map((item) => {
       const name = item.name
       const imageUrl = item.album.images[1].url
-      let artists = []
+      const artists = []
 
       //Set artists
       item.artists.forEach((artist) => {

@@ -1,6 +1,5 @@
 import { Fragment, useContext } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Avatar, List } from 'antd'
 
 import * as ROUTES from './constants/routes'
 
