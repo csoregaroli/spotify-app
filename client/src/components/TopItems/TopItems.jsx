@@ -20,7 +20,6 @@ const TopItems = () => {
     switch (key) {
       case '0':
         setSelectedTab('short_term')
-        console.log(key)
         break
       case '1':
         setSelectedTab('medium_term')
