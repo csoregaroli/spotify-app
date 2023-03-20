@@ -8,7 +8,7 @@ const CurrentlyPlaying = () => {
   if (isLoading || !currentlyPlayingTrack) return <div />
 
   //Set component variables
-  const { trackName, artists, imageUrl, isPlaying } = currentlyPlayingTrack
+  const { trackName, artists, imageUrl } = currentlyPlayingTrack
   const artistsString = artists.join(', ')
 
   return (
