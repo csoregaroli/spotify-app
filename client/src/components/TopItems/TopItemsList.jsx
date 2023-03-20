@@ -25,8 +25,8 @@ const ListHeader = ({ type }) => {
   )
 }
 
-const TopItemsList = ({ type }) => {
-  const { topItems, isLoading } = useTopItems(type)
+const TopItemsList = ({ type, timeRange }) => {
+  const { topItems, isLoading } = useTopItems(type, timeRange)
   const isTrack = type === 'tracks'
   const avatarShape = isTrack ? 'round' : 'square'
 
