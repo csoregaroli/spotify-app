@@ -2,21 +2,6 @@ import { Avatar, List, Typography } from 'antd'
 
 import { useTopItems } from '../../hooks/useTopItems'
 
-const testData = [
-  {
-    title: 'bla bla bla bla bla',
-  },
-  {
-    title: '2',
-  },
-  {
-    title: '3',
-  },
-  {
-    title: '4',
-  },
-]
-
 const ListHeader = ({ type }) => {
   return (
     <Typography.Title level={5} style={{ margin: '0' }}>
