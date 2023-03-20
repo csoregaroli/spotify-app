@@ -26,6 +26,5 @@ export const getTopItems = async (type, limit, timeRange) => {
       withCredentials: true,
     }
   )
-
-  console.log(response)
+  return response
 }

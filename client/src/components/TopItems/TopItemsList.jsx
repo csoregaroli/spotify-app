@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react'
 import { Avatar, List, Typography } from 'antd'
 
-import { getTopItems } from '../../api/reads'
+import { useTopItems } from '../../hooks/useTopItems'
 
 const testData = [
   {
@@ -27,32 +26,25 @@ const ListHeader = ({ type }) => {
 }
 
 const TopItemsList = ({ type }) => {
-  const [data, setData] = useState({})
+  const { topItems, isLoading } = useTopItems(type)
   const isTrack = type === 'tracks'
   const avatarShape = isTrack ? 'round' : 'square'
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getTopItems(type, 5, 'medium_term')
-
-      if (response.status === 200) {
-        setData(response.data)
-      }
-    }
-
-    fetchData()
-  }, [type])
+  if (isLoading || !topItems) return <div />
 
   return (
     <List
       itemLayout='horizontal'
-      dataSource={testData}
-      header={<ListHeader type={type} />}
+      dataSource={topItems}
+      bordered
       style={{ width: '384px' }}
+      header={<ListHeader type={type} />}
       renderItem={(item) => (
         <List.Item>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar src='' shape={avatarShape} />
+          <div
+            style={{ display: 'flex', alignItems: 'center', height: '40px' }}
+          >
+            <Avatar src={item.imageUrl} shape={avatarShape} />
             <div
               style={{
                 display: 'flex',
@@ -60,10 +52,10 @@ const TopItemsList = ({ type }) => {
                 marginLeft: '8px',
               }}
             >
-              <Typography.Text strong>{item.title}</Typography.Text>
+              <Typography.Text strong>{item.name}</Typography.Text>
               {isTrack ? (
                 <Typography.Text type='secondary' style={{ fontSize: '12px' }}>
-                  description
+                  {item.artists.join(', ')}
                 </Typography.Text>
               ) : null}
             </div>
