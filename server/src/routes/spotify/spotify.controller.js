@@ -48,7 +48,7 @@ async function httpGetCurrentTrack(req, res) {
 
     return res.status(400).json({ error: 'Could not fetch track' })
   } catch (err) {
-    console.error(err.response.data)
+    console.error(err)
     return res.status(400).json({ error: 'Could not fetch track' })
   }
 }
@@ -116,7 +116,7 @@ async function httpGetTopItems(req, res) {
       return res.status(200).json(topArtists)
     }
   } catch (err) {
-    console.error(err.response.data)
+    console.error(err)
     return res.status(400).json({ error: `Could not fetch top ${type}` })
   }
 }

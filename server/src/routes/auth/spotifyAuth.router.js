@@ -32,6 +32,7 @@ const SCOPES = [
 async function verifyCallback(req, accessToken, refreshToken, profile, done) {
   req.session.accessToken = accessToken
   req.session.refreshToken = refreshToken
+  req.session.expirationTime = Date.now() - 3600 * 1000
   const user = await getUserDocumentFromAuth(profile)
   done(null, user)
 }
