@@ -25,7 +25,6 @@ async function checkAccessToken(req, res, next) {
   const currentTime = Date.now()
 
   if (expirationTime < currentTime) {
-    console.log('access token expired')
     const authOptions = {
       url: SPOTIFY_TOKEN_ENDPOINT,
       headers: {
