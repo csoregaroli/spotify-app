@@ -1,6 +1,6 @@
 const axios = require('axios')
-const { query } = require('express')
 const querystring = require('querystring')
+
 require('dotenv').config()
 
 const SPOTIFY_TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token'
@@ -20,13 +20,9 @@ function checkAuthentication(req, res, next) {
 }
 
 async function checkAccessToken(req, res, next) {
-  const accessToken = req.session.accessToken
   const refreshToken = req.session.refreshToken
   const expirationTime = req.session.expirationTime
   const currentTime = Date.now()
-
-  console.log('oldAccessToken', accessToken)
-  console.log(expirationTime < currentTime)
 
   if (expirationTime < currentTime) {
     console.log('access token expired')
@@ -35,7 +31,7 @@ async function checkAccessToken(req, res, next) {
       headers: {
         Authorization:
           'Basic ' +
-          new Buffer(
+          Buffer.from(
             config.SPOTIFY_CLIENT_ID + ':' + config.SPOTIFY_CLIENT_SECRET
           ).toString('base64'),
       },
@@ -53,15 +49,16 @@ async function checkAccessToken(req, res, next) {
       console.log('response', response.status)
       const newAccessToken = response.data.access_token
       req.session.accessToken = newAccessToken
+      req.session.expirationTime = Date.now() + 3600 * 1000
       console.log('new access token', newAccessToken)
     } catch (err) {
       console.log('error', err)
     }
 
     next()
+  } else {
+    next()
   }
-
-  next()
 }
 
 module.exports = { checkAuthentication, checkAccessToken }
