@@ -45,7 +45,6 @@ async function checkAccessToken(req, res, next) {
         headers: authOptions.headers,
       })
 
-      console.log('response', response.status)
       const newAccessToken = response.data.access_token
       req.session.accessToken = newAccessToken
       req.session.expirationTime = Date.now() + 3600 * 1000
