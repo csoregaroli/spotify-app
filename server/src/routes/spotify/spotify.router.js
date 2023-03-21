@@ -1,6 +1,5 @@
 const express = require('express')
 
-const { checkAccessToken } = require('../../middleware/auth')
 const { httpGetCurrentTrack, httpGetTopItems } = require('./spotify.controller')
 
 const spotifyRouter = express.Router()
