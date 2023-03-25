@@ -1,16 +1,17 @@
-const { getDoc, doc, collection, batch } = require('firebase/firestore')
+const { doc, getDoc, collection, writeBatch } = require('firebase/firestore')
 const db = require('../services/firebase')
 
 async function addRecsToFirestore(userId, recommendedTracks) {
   const userRef = doc(db, 'users', userId)
-  const recCollectionRef = collection(userRef, 'recommendations')
+  const recRef = collection(userRef, 'recommendations')
+  const batch = writeBatch(db)
 
-  recommendedTracks.forEach(async (track) => {
-    const recSnapshot = await getDoc(recCollectionRef, track.id)
+  for (track of recommendedTracks) {
+    const recSnapshot = await getDoc(doc(recRef, track.id))
     if (!recSnapshot.exists()) {
-      batch.set(doc(recCollectionRef, track.id), track)
+      batch.set(doc(recRef, track.id), track)
     }
-  })
+  }
 
   try {
     const response = await batch.commit()

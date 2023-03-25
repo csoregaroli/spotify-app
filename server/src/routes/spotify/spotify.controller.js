@@ -124,8 +124,8 @@ async function httpGetTopItems(req, res) {
 async function httpGetRecommendations(req, res) {
   const accessToken =
     req.session.accessToken ||
-    'BQCcYyvaxHJoZW-zKAHwqNQ44xnwaEyPp85JZWWUQR6MVYaYxTYY9BM5_EuHOgYBs8Wxm06J0ZPxE-0f22lJ_8vnwKpxkMaEQeNuc_RGx6AHDBSV1xNievi-s9TeBL1xzNWUrpMvI82JK9n3ZITUSeayJCJDnY3paLMvn6nlYmZpyRoed-OnvB30m8v_yAHsbyTjVFuHEG5Qj_-fKA'
-  const userId = req.user.id
+    'BQDDah_J5ebNtUJYJxuYu5OmcIhVuE6eSCTdEP_Y9I27a-HICWBBCqtq_pna45z59lwNgPNgxozSDZDqohLQ71r9P-MLDMyVg0BQVWBUJoBV6Cbo030u-TPNdPqIGjhd1CgCdsyKzddSiKMVgJ5Eq4Jxk3k9nK2vb0qwrqfnybG2QlawufAy6xmzs6k2AqIeBfvG0jx6zTHB6fkqlw'
+  const userId = req.user?.id || 'csoregaroli'
   const {
     reqSeedArtists,
     reqSeedGenres,
@@ -183,6 +183,7 @@ async function httpGetRecommendations(req, res) {
     })
 
     res.status(200).json(recommendedTracks)
+    await addRecsToFirestore(userId, recommendedTracks)
   } catch (err) {
     console.log(err)
     return res.status(400).json({ error: 'Could not generate recommendations' })
