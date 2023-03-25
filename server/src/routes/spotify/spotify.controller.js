@@ -122,10 +122,8 @@ async function httpGetTopItems(req, res) {
 }
 
 async function httpGetRecommendations(req, res) {
-  const accessToken =
-    req.session.accessToken ||
-    'BQDDah_J5ebNtUJYJxuYu5OmcIhVuE6eSCTdEP_Y9I27a-HICWBBCqtq_pna45z59lwNgPNgxozSDZDqohLQ71r9P-MLDMyVg0BQVWBUJoBV6Cbo030u-TPNdPqIGjhd1CgCdsyKzddSiKMVgJ5Eq4Jxk3k9nK2vb0qwrqfnybG2QlawufAy6xmzs6k2AqIeBfvG0jx6zTHB6fkqlw'
-  const userId = req.user?.id || 'csoregaroli'
+  const accessToken = req.session.accessToken
+  const userId = req.user?.id
   const {
     reqSeedArtists,
     reqSeedGenres,
