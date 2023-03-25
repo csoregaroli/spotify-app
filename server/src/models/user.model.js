@@ -1,5 +1,4 @@
 const { getDoc, setDoc, doc, updateDoc } = require('firebase/firestore')
-
 const db = require('../services/firebase')
 
 async function getUserDocumentFromAuth(profile) {

@@ -1,6 +1,7 @@
 const axios = require('axios')
 
 const { convertArtistsToArray } = require('./spotify.utils')
+const { addRecsToFirestore } = require('../../models/spotify.model')
 
 //SPOTIFY API ENDPOINTS
 const SPOTIFY_PLAYER_URL = 'https://api.spotify.com/v1/me/player'
@@ -121,7 +122,10 @@ async function httpGetTopItems(req, res) {
 }
 
 async function httpGetRecommendations(req, res) {
-  const accessToken = req.session.accessToken
+  const accessToken =
+    req.session.accessToken ||
+    'BQCcYyvaxHJoZW-zKAHwqNQ44xnwaEyPp85JZWWUQR6MVYaYxTYY9BM5_EuHOgYBs8Wxm06J0ZPxE-0f22lJ_8vnwKpxkMaEQeNuc_RGx6AHDBSV1xNievi-s9TeBL1xzNWUrpMvI82JK9n3ZITUSeayJCJDnY3paLMvn6nlYmZpyRoed-OnvB30m8v_yAHsbyTjVFuHEG5Qj_-fKA'
+  const userId = req.user.id
   const {
     reqSeedArtists,
     reqSeedGenres,
