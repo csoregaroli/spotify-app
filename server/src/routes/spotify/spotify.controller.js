@@ -1,6 +1,7 @@
 const axios = require('axios')
 
 const { convertArtistsToArray } = require('./spotify.utils')
+const { addRecsToFirestore } = require('../../models/spotify.model')
 
 //SPOTIFY API ENDPOINTS
 const SPOTIFY_PLAYER_URL = 'https://api.spotify.com/v1/me/player'
@@ -122,6 +123,7 @@ async function httpGetTopItems(req, res) {
 
 async function httpGetRecommendations(req, res) {
   const accessToken = req.session.accessToken
+  const userId = req.user?.id
   const {
     reqSeedArtists,
     reqSeedGenres,
@@ -179,6 +181,7 @@ async function httpGetRecommendations(req, res) {
     })
 
     res.status(200).json(recommendedTracks)
+    await addRecsToFirestore(userId, recommendedTracks)
   } catch (err) {
     console.log(err)
     return res.status(400).json({ error: 'Could not generate recommendations' })
