@@ -1,10 +1,13 @@
 const axios = require('axios')
 
-//SPOTIFY ENDPOINTS
+const { convertArtistsToArray } = require('./spotify.utils')
+
+//SPOTIFY API ENDPOINTS
 const SPOTIFY_PLAYER_URL = 'https://api.spotify.com/v1/me/player'
 const SPOTIFY_TOP_URL = 'https://api.spotify.com/v1/me/top'
 const SPOTIFY_RECOMMENDATIONS_URL = 'https://api.spotify.com/v1/recommendations'
 
+//ENDPOINTS
 async function httpGetCurrentTrack(req, res) {
   const accessToken = req.session.accessToken
 
@@ -24,24 +27,20 @@ async function httpGetCurrentTrack(req, res) {
 
     if (response.status === 200) {
       const { item, is_playing } = response.data
+      const id = item.id
       const trackName = item.name
       const imageUrl = item.album.images[1].url
       const isPlaying = is_playing
-      const artistsResponse = item.artists
-      const artists = []
+      const artists = convertArtistsToArray(item.artists)
 
-      //Set artists from response
-      artistsResponse.forEach((artist) => {
-        artists.push(artist.name)
-      })
-
-      //Set current track
       const currentTrack = {
-        artists,
+        id,
         trackName,
         imageUrl,
         isPlaying,
+        artists,
       }
+
       return res.status(200).json(currentTrack)
     } else if (response.status === 204) {
       return res.status(204).json({ error: 'No track currently playing' })
@@ -85,12 +84,7 @@ async function httpGetTopItems(req, res) {
         const id = item.id
         const name = item.name
         const imageUrl = item.album.images[1].url
-        const artists = []
-
-        //Set artists
-        item.artists.forEach((artist) => {
-          artists.push(artist.name)
-        })
+        const artists = convertArtistsToArray(item.artists)
 
         const track = {
           id,
@@ -166,21 +160,13 @@ async function httpGetRecommendations(req, res) {
         'Content-Type': 'application/json',
       },
     })
-
-    console.log(response.data.tracks)
-
     const { tracks } = response.data
 
     const recommendedTracks = tracks.map((track) => {
       const id = track.id
       const name = track.name
       const imageUrl = track.album.images[1].url
-      const artists = []
-
-      //Set artists
-      track.artists.forEach((artist) => {
-        artists.push(artist.name)
-      })
+      const artists = convertArtistsToArray(track.artists)
 
       const recommendedtrack = {
         id,

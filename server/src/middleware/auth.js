@@ -51,10 +51,8 @@ async function checkAccessToken(req, res, next) {
     } catch (err) {
       console.log('error', err)
     }
-    next()
-  } else {
-    next()
   }
+  return next()
 }
 
 module.exports = { checkAuthentication, checkAccessToken }
