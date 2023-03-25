@@ -146,7 +146,7 @@ async function httpGetRecommendations(req, res) {
   // if (!accessToken)
   //   return res.status(401).json({ error: 'No access token provided' })
 
-  if (!artists || !genres || !tracks)
+  if (!reqSeedArtists || !reqSeedGenres || !reqSeedTracks)
     return res.status(400).json({ error: 'Missing required request query' })
 
   const requestOptions = {
@@ -182,18 +182,18 @@ async function httpGetRecommendations(req, res) {
     const artists = []
 
     //Set artists
-    item.artists.forEach((artist) => {
+    track.artists.forEach((artist) => {
       artists.push(artist.name)
     })
 
-    const track = {
+    const recommendedtrack = {
       id,
       name,
       imageUrl,
       artists,
     }
 
-    return track
+    return recommendedtrack
   })
 
   res.status(200).json({ message: 'that worked!', data: recommendedTracks })
