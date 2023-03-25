@@ -3,8 +3,6 @@ const querystring = require('querystring')
 
 require('dotenv').config()
 
-const SPOTIFY_TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token'
-
 const config = {
   SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
   SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
@@ -24,9 +22,11 @@ async function checkAccessToken(req, res, next) {
   const expirationTime = req.session.expirationTime
   const currentTime = Date.now()
 
+  if (!refreshToken) return next()
+
   if (expirationTime < currentTime) {
     const authOptions = {
-      url: SPOTIFY_TOKEN_ENDPOINT,
+      url: 'https://accounts.spotify.com/api/token',
       headers: {
         Authorization:
           'Basic ' +
@@ -51,7 +51,6 @@ async function checkAccessToken(req, res, next) {
     } catch (err) {
       console.log('error', err)
     }
-
     next()
   } else {
     next()

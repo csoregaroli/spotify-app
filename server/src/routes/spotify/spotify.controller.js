@@ -3,6 +3,7 @@ const axios = require('axios')
 //SPOTIFY ENDPOINTS
 const SPOTIFY_PLAYER_URL = 'https://api.spotify.com/v1/me/player'
 const SPOTIFY_TOP_URL = 'https://api.spotify.com/v1/me/top'
+const SPOTIFY_RECOMMENDATIONS_URL = 'https://api.spotify.com/v1/recommendations'
 
 async function httpGetCurrentTrack(req, res) {
   const accessToken = req.session.accessToken
@@ -121,4 +122,56 @@ async function httpGetTopItems(req, res) {
   }
 }
 
-module.exports = { httpGetCurrentTrack, httpGetTopItems }
+async function httpGetRecommendations(req, res) {
+  const accessToken = req.session.accessToken
+  const {
+    artists,
+    genres,
+    tracks,
+    acousticness,
+    danceability,
+    energy,
+    instrumentalness,
+    popularity,
+  } = req.query
+
+  // if (!accessToken)
+  //   return res.status(401).json({ error: 'No access token provided' })
+
+  if (!artists || !genres || !tracks)
+    return res.status(400).json({ error: 'Missing required request query' })
+
+  const requestOptions = {
+    seedArtists: `seed_artists=${artists}`,
+    seedGenres: `seed_genres=${genres}`,
+    seedTracks: `seed_tracks=${tracks}`,
+    targetAcousticness: `target_acousticness=${acousticness}`,
+    targetDanceability: `target_danceability=${danceability}`,
+    targetEnergy: `target_energy=${energy}`,
+    targetInstrumentalness: `target_instrumentalness=${instrumentalness}`,
+    targetPopularity: `target_popularity=${popularity}`,
+  }
+
+  const requestParams = Object.values(requestOptions).join('&')
+
+  const requestUrl = SPOTIFY_RECOMMENDATIONS_URL + '?' + requestParams
+
+  try {
+    const response = await axios.get(requestUrl, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    res.status(200).json({ response: requestUrl })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json({ error: 'Could not generate recommendations' })
+  }
+}
+
+module.exports = {
+  httpGetCurrentTrack,
+  httpGetTopItems,
+  httpGetRecommendations,
+}
