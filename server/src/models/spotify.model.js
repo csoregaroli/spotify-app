@@ -14,9 +14,7 @@ async function addRecsToFirestore(userId, recommendedTracks) {
   }
 
   try {
-    const response = await batch.commit()
-    console.log(response)
-    return response
+    return await batch.commit()
   } catch (err) {
     console.log(err)
     return err
