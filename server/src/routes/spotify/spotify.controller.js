@@ -178,7 +178,7 @@ async function httpGetRecommendations(req, res) {
       return recommendedtrack
     })
 
-    res.status(200).json({ recommendedTracks })
+    res.status(200).json(recommendedTracks)
   } catch (err) {
     console.log(err)
     return res.status(400).json({ error: 'Could not generate recommendations' })
