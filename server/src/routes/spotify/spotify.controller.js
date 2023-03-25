@@ -55,9 +55,7 @@ async function httpGetCurrentTrack(req, res) {
 }
 
 async function httpGetTopItems(req, res) {
-  const accessToken =
-    req.session.accessToken ||
-    'BQAEeTBtUCWFMo8zcwCU4P7gdNTDu_5J5iOpspW18TB-FxW4n3E9q_rE3Yt_dKFRK9tY375YvgxkutyiZ7hBqWCHUVJ3NSPDqDqakh3g_UW1HoeVpkPM2bz2R6fAr5VKl8v3VXxjBJBHRh3jqFCSfx6RfT2-McI2HdevZbqOl6SWqS2Y1l_uVgBWJgx68YjI01U9LqWeKuvTeL4Prg'
+  const accessToken = req.session.accessToken
   const { type } = req.params
   const limit = req.query.limit || 10
   const time_range = req.query.time_range || 'medium_term'
@@ -129,9 +127,7 @@ async function httpGetTopItems(req, res) {
 }
 
 async function httpGetRecommendations(req, res) {
-  const accessToken =
-    req.session.accessToken ||
-    'BQAEeTBtUCWFMo8zcwCU4P7gdNTDu_5J5iOpspW18TB-FxW4n3E9q_rE3Yt_dKFRK9tY375YvgxkutyiZ7hBqWCHUVJ3NSPDqDqakh3g_UW1HoeVpkPM2bz2R6fAr5VKl8v3VXxjBJBHRh3jqFCSfx6RfT2-McI2HdevZbqOl6SWqS2Y1l_uVgBWJgx68YjI01U9LqWeKuvTeL4Prg'
+  const accessToken = req.session.accessToken
   const {
     reqSeedArtists,
     reqSeedGenres,
@@ -143,8 +139,8 @@ async function httpGetRecommendations(req, res) {
     popularity,
   } = req.query
 
-  // if (!accessToken)
-  //   return res.status(401).json({ error: 'No access token provided' })
+  if (!accessToken)
+    return res.status(401).json({ error: 'No access token provided' })
 
   if (!reqSeedArtists || !reqSeedGenres || !reqSeedTracks)
     return res.status(400).json({ error: 'Missing required request query' })
@@ -163,44 +159,44 @@ async function httpGetRecommendations(req, res) {
   const requestParams = Object.values(requestOptions).join('&')
   const requestUrl = SPOTIFY_RECOMMENDATIONS_URL + '?' + requestParams
 
-  // try {
-  const response = await axios.get(requestUrl, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-  })
-
-  console.log(response.data.tracks)
-
-  const { tracks } = response.data
-
-  const recommendedTracks = tracks.map((track) => {
-    const id = track.id
-    const name = track.name
-    const imageUrl = track.album.images[1].url
-    const artists = []
-
-    //Set artists
-    track.artists.forEach((artist) => {
-      artists.push(artist.name)
+  try {
+    const response = await axios.get(requestUrl, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
     })
 
-    const recommendedtrack = {
-      id,
-      name,
-      imageUrl,
-      artists,
-    }
+    console.log(response.data.tracks)
 
-    return recommendedtrack
-  })
+    const { tracks } = response.data
 
-  res.status(200).json({ recommendedTracks })
-  // } catch (err) {
-  //   console.log(err)
-  //   return res.status(400).json({ error: 'Could not generate recommendations' })
-  // }
+    const recommendedTracks = tracks.map((track) => {
+      const id = track.id
+      const name = track.name
+      const imageUrl = track.album.images[1].url
+      const artists = []
+
+      //Set artists
+      track.artists.forEach((artist) => {
+        artists.push(artist.name)
+      })
+
+      const recommendedtrack = {
+        id,
+        name,
+        imageUrl,
+        artists,
+      }
+
+      return recommendedtrack
+    })
+
+    res.status(200).json({ recommendedTracks })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json({ error: 'Could not generate recommendations' })
+  }
 }
 
 module.exports = {
