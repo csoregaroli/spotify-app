@@ -1,9 +1,13 @@
 const axios = require('axios')
 
-//SPOTIFY ENDPOINTS
+const { convertArtistsToArray } = require('./spotify.utils')
+
+//SPOTIFY API ENDPOINTS
 const SPOTIFY_PLAYER_URL = 'https://api.spotify.com/v1/me/player'
 const SPOTIFY_TOP_URL = 'https://api.spotify.com/v1/me/top'
+const SPOTIFY_RECOMMENDATIONS_URL = 'https://api.spotify.com/v1/recommendations'
 
+//ENDPOINTS
 async function httpGetCurrentTrack(req, res) {
   const accessToken = req.session.accessToken
 
@@ -23,24 +27,20 @@ async function httpGetCurrentTrack(req, res) {
 
     if (response.status === 200) {
       const { item, is_playing } = response.data
+      const id = item.id
       const trackName = item.name
       const imageUrl = item.album.images[1].url
       const isPlaying = is_playing
-      const artistsResponse = item.artists
-      const artists = []
+      const artists = convertArtistsToArray(item.artists)
 
-      //Set artists from response
-      artistsResponse.forEach((artist) => {
-        artists.push(artist.name)
-      })
-
-      //Set current track
       const currentTrack = {
-        artists,
+        id,
         trackName,
         imageUrl,
         isPlaying,
+        artists,
       }
+
       return res.status(200).json(currentTrack)
     } else if (response.status === 204) {
       return res.status(204).json({ error: 'No track currently playing' })
@@ -81,16 +81,13 @@ async function httpGetTopItems(req, res) {
 
     if (type === 'tracks') {
       const topTracks = items.map((item) => {
+        const id = item.id
         const name = item.name
         const imageUrl = item.album.images[1].url
-        const artists = []
-
-        //Set artists
-        item.artists.forEach((artist) => {
-          artists.push(artist.name)
-        })
+        const artists = convertArtistsToArray(item.artists)
 
         const track = {
+          id,
           name,
           imageUrl,
           artists,
@@ -101,11 +98,13 @@ async function httpGetTopItems(req, res) {
       return res.status(200).json(topTracks)
     } else if (type === 'artists') {
       const topArtists = items.map((item) => {
+        const id = item.id
         const name = item.name
         const imageUrl = item.images[1].url
         const followers = item.followers.total
 
         const artist = {
+          id,
           name,
           imageUrl,
           followers,
@@ -121,4 +120,73 @@ async function httpGetTopItems(req, res) {
   }
 }
 
-module.exports = { httpGetCurrentTrack, httpGetTopItems }
+async function httpGetRecommendations(req, res) {
+  const accessToken = req.session.accessToken
+  const {
+    reqSeedArtists,
+    reqSeedGenres,
+    reqSeedTracks,
+    acousticness,
+    danceability,
+    energy,
+    instrumentalness,
+    popularity,
+  } = req.query
+
+  if (!accessToken)
+    return res.status(401).json({ error: 'No access token provided' })
+
+  if (!reqSeedArtists || !reqSeedGenres || !reqSeedTracks)
+    return res.status(400).json({ error: 'Missing required request query' })
+
+  const requestOptions = {
+    seedArtists: `seed_artists=${reqSeedArtists}`,
+    seedGenres: `seed_genres=${reqSeedGenres}`,
+    seedTracks: `seed_tracks=${reqSeedTracks}`,
+    targetAcousticness: `target_acousticness=${acousticness}`,
+    targetDanceability: `target_danceability=${danceability}`,
+    targetEnergy: `target_energy=${energy}`,
+    targetInstrumentalness: `target_instrumentalness=${instrumentalness}`,
+    targetPopularity: `target_popularity=${popularity}`,
+  }
+
+  const requestParams = Object.values(requestOptions).join('&')
+  const requestUrl = SPOTIFY_RECOMMENDATIONS_URL + '?' + requestParams
+
+  try {
+    const response = await axios.get(requestUrl, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    const { tracks } = response.data
+
+    const recommendedTracks = tracks.map((track) => {
+      const id = track.id
+      const name = track.name
+      const imageUrl = track.album.images[1].url
+      const artists = convertArtistsToArray(track.artists)
+
+      const recommendedtrack = {
+        id,
+        name,
+        imageUrl,
+        artists,
+      }
+
+      return recommendedtrack
+    })
+
+    res.status(200).json(recommendedTracks)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json({ error: 'Could not generate recommendations' })
+  }
+}
+
+module.exports = {
+  httpGetCurrentTrack,
+  httpGetTopItems,
+  httpGetRecommendations,
+}
