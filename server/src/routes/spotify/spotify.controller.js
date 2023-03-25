@@ -55,7 +55,9 @@ async function httpGetCurrentTrack(req, res) {
 }
 
 async function httpGetTopItems(req, res) {
-  const accessToken = req.session.accessToken
+  const accessToken =
+    req.session.accessToken ||
+    'BQAEeTBtUCWFMo8zcwCU4P7gdNTDu_5J5iOpspW18TB-FxW4n3E9q_rE3Yt_dKFRK9tY375YvgxkutyiZ7hBqWCHUVJ3NSPDqDqakh3g_UW1HoeVpkPM2bz2R6fAr5VKl8v3VXxjBJBHRh3jqFCSfx6RfT2-McI2HdevZbqOl6SWqS2Y1l_uVgBWJgx68YjI01U9LqWeKuvTeL4Prg'
   const { type } = req.params
   const limit = req.query.limit || 10
   const time_range = req.query.time_range || 'medium_term'
@@ -82,6 +84,7 @@ async function httpGetTopItems(req, res) {
 
     if (type === 'tracks') {
       const topTracks = items.map((item) => {
+        const id = item.id
         const name = item.name
         const imageUrl = item.album.images[1].url
         const artists = []
@@ -92,6 +95,7 @@ async function httpGetTopItems(req, res) {
         })
 
         const track = {
+          id,
           name,
           imageUrl,
           artists,
@@ -102,11 +106,13 @@ async function httpGetTopItems(req, res) {
       return res.status(200).json(topTracks)
     } else if (type === 'artists') {
       const topArtists = items.map((item) => {
+        const id = item.id
         const name = item.name
         const imageUrl = item.images[1].url
         const followers = item.followers.total
 
         const artist = {
+          id,
           name,
           imageUrl,
           followers,
@@ -123,11 +129,13 @@ async function httpGetTopItems(req, res) {
 }
 
 async function httpGetRecommendations(req, res) {
-  const accessToken = req.session.accessToken
+  const accessToken =
+    req.session.accessToken ||
+    'BQAEeTBtUCWFMo8zcwCU4P7gdNTDu_5J5iOpspW18TB-FxW4n3E9q_rE3Yt_dKFRK9tY375YvgxkutyiZ7hBqWCHUVJ3NSPDqDqakh3g_UW1HoeVpkPM2bz2R6fAr5VKl8v3VXxjBJBHRh3jqFCSfx6RfT2-McI2HdevZbqOl6SWqS2Y1l_uVgBWJgx68YjI01U9LqWeKuvTeL4Prg'
   const {
-    artists,
-    genres,
-    tracks,
+    reqSeedArtists,
+    reqSeedGenres,
+    reqSeedTracks,
     acousticness,
     danceability,
     energy,
@@ -142,9 +150,9 @@ async function httpGetRecommendations(req, res) {
     return res.status(400).json({ error: 'Missing required request query' })
 
   const requestOptions = {
-    seedArtists: `seed_artists=${artists}`,
-    seedGenres: `seed_genres=${genres}`,
-    seedTracks: `seed_tracks=${tracks}`,
+    seedArtists: `seed_artists=${reqSeedArtists}`,
+    seedGenres: `seed_genres=${reqSeedGenres}`,
+    seedTracks: `seed_tracks=${reqSeedTracks}`,
     targetAcousticness: `target_acousticness=${acousticness}`,
     targetDanceability: `target_danceability=${danceability}`,
     targetEnergy: `target_energy=${energy}`,
@@ -153,21 +161,46 @@ async function httpGetRecommendations(req, res) {
   }
 
   const requestParams = Object.values(requestOptions).join('&')
-
   const requestUrl = SPOTIFY_RECOMMENDATIONS_URL + '?' + requestParams
 
-  try {
-    const response = await axios.get(requestUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
+  // try {
+  const response = await axios.get(requestUrl, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+  console.log(response.data.tracks)
+
+  const { tracks } = response.data
+
+  const recommendedTracks = tracks.map((track) => {
+    const id = track.id
+    const name = track.name
+    const imageUrl = track.album.images[1].url
+    const artists = []
+
+    //Set artists
+    item.artists.forEach((artist) => {
+      artists.push(artist.name)
     })
-    res.status(200).json({ response: requestUrl })
-  } catch (err) {
-    console.log(err)
-    return res.status(400).json({ error: 'Could not generate recommendations' })
-  }
+
+    const track = {
+      id,
+      name,
+      imageUrl,
+      artists,
+    }
+
+    return track
+  })
+
+  res.status(200).json({ message: 'that worked!', data: recommendedTracks })
+  // } catch (err) {
+  //   console.log(err)
+  //   return res.status(400).json({ error: 'Could not generate recommendations' })
+  // }
 }
 
 module.exports = {
