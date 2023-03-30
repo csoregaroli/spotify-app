@@ -152,8 +152,8 @@ async function httpGetRecommendations(req, res) {
     targetPopularity: `target_popularity=${popularity}`,
   }
 
-  const requestParams = Object.values(requestOptions).join('&')
-  const requestUrl = SPOTIFY_RECOMMENDATIONS_URL + '?' + requestParams
+  const requestQuery = Object.values(requestOptions).join('&')
+  const requestUrl = SPOTIFY_RECOMMENDATIONS_URL + '?' + requestQuery
 
   try {
     const response = await axios.get(requestUrl, {
