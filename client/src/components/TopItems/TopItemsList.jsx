@@ -3,9 +3,12 @@ import { Avatar, List, Typography } from 'antd'
 import { useTopItems } from '../../hooks/useTopItems'
 
 const ListHeader = ({ type }) => {
+  const formattedType = type.charAt(0).toUpperCase() + type.slice(1)
+
   return (
     <Typography.Title level={5} style={{ margin: '0' }}>
-      Top {type.charAt(0).toUpperCase() + type.slice(1)}
+      {/* Top {type.charAt(0).toUpperCase() + type.slice(1)} */}
+      Top {formattedType}
     </Typography.Title>
   )
 }
