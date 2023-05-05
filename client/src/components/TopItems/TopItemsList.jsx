@@ -7,7 +7,6 @@ const ListHeader = ({ type }) => {
 
   return (
     <Typography.Title level={5} style={{ margin: '0' }}>
-      {/* Top {type.charAt(0).toUpperCase() + type.slice(1)} */}
       Top {formattedType}
     </Typography.Title>
   )
