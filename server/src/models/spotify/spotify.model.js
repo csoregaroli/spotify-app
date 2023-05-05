@@ -1,5 +1,5 @@
 const { doc, getDoc, collection, writeBatch } = require('firebase/firestore')
-const db = require('../services/firebase')
+const db = require('../../services/firebase')
 
 async function addRecsToFirestore(userId, recommendedTracks) {
   const userRef = doc(db, 'users', userId)

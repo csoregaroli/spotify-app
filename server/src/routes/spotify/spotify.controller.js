@@ -1,7 +1,8 @@
 const axios = require('axios')
 
 const { convertArtistsToArray } = require('./spotify.utils')
-const { addRecsToFirestore } = require('../../models/spotify.model')
+const { addRecsToFirestore } = require('../../models/spotify/spotify.model')
+const { addGenresToFirestore } = require('../../models/spotify/genres.model')
 
 //SPOTIFY API ENDPOINTS
 const SPOTIFY_PLAYER_URL = 'https://api.spotify.com/v1/me/player'
@@ -188,8 +189,41 @@ async function httpGetRecommendations(req, res) {
   }
 }
 
+async function httpGetGenres(req, res) {
+  const accessToken = req.session.accessToken
+
+  if (!accessToken)
+    return res.status(401).json({ error: 'No access token provided' })
+
+  try {
+    const response = await axios.get(
+      SPOTIFY_RECOMMENDATIONS_URL + '/available-genre-seeds',
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+
+    if (response.status === 200) {
+      const { genres } = response?.data
+      addGenresToFirestore(genres)
+      return res
+        .status(200)
+        .json({ message: 'Genres successfully added to Firestore' })
+    }
+
+    return res.status(400).json({ error: 'Could not fetch genres' })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json({ error: 'Could not fetch genres' })
+  }
+}
+
 module.exports = {
   httpGetCurrentTrack,
   httpGetTopItems,
   httpGetRecommendations,
+  httpGetGenres,
 }
