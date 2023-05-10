@@ -8,7 +8,7 @@ export const useTopItems = (type, timeRange) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getTopItems(type, 5, timeRange)
+      const response = await getTopItems(type, 3, timeRange)
 
       if (response.status === 200) {
         setTopItems(response.data)

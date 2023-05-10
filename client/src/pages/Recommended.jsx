@@ -1,3 +1,9 @@
+import Genres from '../components/Genres'
+
 export const Recommended = () => {
-  return <div>this is the recommended page</div>
+  return (
+    <div>
+      <Genres />
+    </div>
+  )
 }
