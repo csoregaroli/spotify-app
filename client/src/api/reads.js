@@ -40,6 +40,5 @@ export const getGenres = async () => {
       name: genreName,
     })
   })
-  console.log(genres)
   return genres
 }

@@ -1,9 +1,12 @@
-import Genres from '../components/Genres'
+import SelectGenres from '../components/SelectGenres'
+import RecOptions from '../components/RecSettings/RecOptions'
 
 export const Recommended = () => {
   return (
     <div>
-      <Genres />
+      <SelectGenres />
+      <div style={{ marginBottom: '48px' }} />
+      <RecOptions />
     </div>
   )
 }
