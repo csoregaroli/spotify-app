@@ -12,9 +12,7 @@ const RecOptions = () => {
   return (
     <div>
       {options.map((option) => (
-        <div>
-          <RecSlider title={option} />
-        </div>
+        <RecSlider title={option} />
       ))}
     </div>
   )
