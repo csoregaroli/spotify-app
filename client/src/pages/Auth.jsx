@@ -34,20 +34,22 @@ export const Auth = () => {
   }, [path])
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
+    <div style={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
       <div style={{ width: '50%' }}>
         <AuthPrompt copy={copy} />
       </div>
       <div
         style={{
-          width: '50%',
-          backgroundImage: `url('https://images.unsplash.com/photo-1633329102202-eaa697179563?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3213&q=80')`,
+          width: '50vw',
+          backgroundImage: `url(${imageSrc})`,
           backgroundSize: 'cover',
-          borderRadius: '30px',
+          backgroundPosition: 'center',
+          borderRadius: '30px 0px 0px 30px',
+          marginTop: '-32px',
+          marginBottom: '-32px',
+          marginRight: '-32px',
         }}
       />
-      {/* <Image src={imageSrc} preview={false} height='100%' /> */}
-      {/* </div> */}
     </div>
   )
 }
