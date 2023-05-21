@@ -11,6 +11,7 @@ const SpotifyButton = ({ cta }) => {
     '&:hover': {
       backgroundColor: '#169b45',
     },
+    marginTop: '32px',
   }
 
   const handleClick = () => {
