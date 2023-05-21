@@ -1,9 +1,8 @@
 import axios from 'axios'
-import { getDoc, doc } from 'firebase/firestore'
-
 import db from './firebase/firebaseConfig'
-
+import { getDoc, getDocs, doc, collection } from 'firebase/firestore'
 import { url, spotifyEndpoints } from '../constants/routes'
+import { convertGenreSeedToGenre } from '../utils/utils'
 
 export const getAuthUser = async () => {
   const response = await axios.get(url + '/user', { withCredentials: true })
@@ -27,4 +26,19 @@ export const getTopItems = async (type, limit, timeRange) => {
     }
   )
   return response
+}
+
+export const getGenres = async () => {
+  const querySnapshot = await getDocs(collection(db, 'genres'))
+
+  const genres = []
+  querySnapshot.forEach((doc) => {
+    const genreSeed = doc.data()['seed']
+    const genreName = convertGenreSeedToGenre(genreSeed)
+    genres.push({
+      seed: genreSeed,
+      name: genreName,
+    })
+  })
+  return genres
 }
