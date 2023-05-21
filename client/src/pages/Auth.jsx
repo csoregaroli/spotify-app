@@ -1,37 +1,44 @@
 import { useState, useEffect } from 'react'
 import { Typography } from 'antd'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { SIGNUP, SIGNIN } from '../constants/routes'
 import SpotifyButton from '../components/Auth/SpotifyButton'
 
-const { Title, Text } = Typography
+const { Title, Text, Link } = Typography
 
 export const Auth = () => {
   const [copy, setCopy] = useState()
+  const navigate = useNavigate()
   const location = useLocation()
   const path = location.pathname
 
   const imageSrc =
     'https://images.unsplash.com/photo-1633329102202-eaa697179563?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3213&q=80'
 
-  const signUpCopy = {
+  const signUp = {
     header: "Let's get started",
     subheader: 'Welcome to Songbird! Your music analytics dashboard.',
     buttonCta: 'Sign up with Spotify',
+    switchPathCopy: 'Already have an account? ',
+    switchPathCta: 'Sign in',
+    pathUrl: '/signin',
   }
 
-  const signInCopy = {
+  const signIn = {
     header: 'Welcome back!',
     subheader: 'Welcome back! Please sign in to continue.',
     buttonCta: 'Continue with Spotify',
+    switchPathCopy: "Don't have an account? ",
+    switchPathCta: 'Sign up',
+    pathUrl: '/signup',
   }
 
   useEffect(() => {
     if (path === SIGNUP) {
-      setCopy(signUpCopy)
+      setCopy(signUp)
     } else if (path === SIGNIN) {
-      setCopy(signInCopy)
+      setCopy(signIn)
     }
   }, [path])
 
@@ -62,6 +69,16 @@ export const Auth = () => {
           </Title>
           <Text type='secondary'>{copy?.subheader}</Text>
           <SpotifyButton cta={copy?.buttonCta} />
+          <Text type='secondary' style={{ cursor: 'pointer' }}>
+            {copy?.switchPathCopy}
+            <Link
+              onClick={() => {
+                navigate(`${copy?.pathUrl}`)
+              }}
+            >
+              {copy?.switchPathCta}
+            </Link>
+          </Text>
         </div>
       </div>
       <div
@@ -70,7 +87,6 @@ export const Auth = () => {
           backgroundImage: `url(${imageSrc})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          overflow: 'visible',
           borderRadius: '70px 0px 0px 70px',
           marginTop: '-32px',
           marginBottom: '-32px',
