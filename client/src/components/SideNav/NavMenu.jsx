@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Menu } from 'antd'
 import {
   AppstoreOutlined,
@@ -15,20 +16,44 @@ const menuItems = [
 ]
 
 const NavMenu = () => {
+  const [selectedKey, setSelectedKey] = useState('')
   const navigate = useNavigate()
+  const location = useLocation()
+  const path = location.pathname
+
+  useEffect(() => {
+    switch (path) {
+      case HOME:
+        setSelectedKey('1')
+        break
+      case RECOMMENDED:
+        setSelectedKey('2')
+        console.log(selectedKey)
+        break
+      case SOCIAL:
+        setSelectedKey('3')
+        break
+      default:
+        setSelectedKey('1')
+    }
+  }, [])
 
   const handleClick = ({ key }) => {
     switch (key) {
       case '1':
+        setSelectedKey(key)
         navigate(HOME)
         break
       case '2':
+        setSelectedKey(key)
         navigate(RECOMMENDED)
         break
       case '3':
+        setSelectedKey(key)
         navigate(SOCIAL)
         break
       default:
+        setSelectedKey(key)
         navigate(HOME)
     }
   }
@@ -37,7 +62,7 @@ const NavMenu = () => {
     <div>
       <Menu
         style={{ width: '192px', border: 'none' }}
-        defaultSelectedKeys={['1']}
+        selectedKeys={[`${selectedKey}`]}
         items={menuItems}
         onClick={handleClick}
       />

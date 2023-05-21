@@ -1,4 +1,3 @@
-import { Image } from 'antd'
 import SongbirdLogo from '../../assets/Songbird.png'
 
 import NavMenu from './NavMenu'
@@ -15,11 +14,10 @@ const SideNav = () => {
           alignItems: 'center',
         }}
       >
-        <Image
+        <img
           src={SongbirdLogo}
           alt='Songbird logo'
           style={{ maxHeight: '60%' }}
-          preview={false}
         />
       </div>
       <NavMenu />
