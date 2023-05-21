@@ -28,7 +28,6 @@ const NavMenu = () => {
         break
       case RECOMMENDED:
         setSelectedKey('2')
-        console.log(selectedKey)
         break
       case SOCIAL:
         setSelectedKey('3')
@@ -36,7 +35,7 @@ const NavMenu = () => {
       default:
         setSelectedKey('1')
     }
-  }, [])
+  }, [path])
 
   const handleClick = ({ key }) => {
     switch (key) {
