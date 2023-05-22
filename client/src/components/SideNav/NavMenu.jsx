@@ -5,18 +5,34 @@ import {
   AppstoreOutlined,
   HeartOutlined,
   TeamOutlined,
+  PlusOutlined,
+  HistoryOutlined,
 } from '@ant-design/icons'
 
 import { HOME, RECOMMENDED, SOCIAL } from '../../constants/routes'
 
-const menuItems = [
-  { label: 'Dashboard', key: '1', icon: <AppstoreOutlined /> },
-  { label: 'Recommended', key: '2', icon: <HeartOutlined /> },
-  { label: 'Social', key: '3', icon: <TeamOutlined /> },
+const getItem = (label, key, icon, children, type) => {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  }
+}
+
+const items = [
+  getItem('Dashboard', '1', <AppstoreOutlined />),
+  getItem('Recommended', '2', <HeartOutlined />, [
+    getItem('History', '2.1', <HistoryOutlined />),
+    getItem('New', '2.2', <PlusOutlined />),
+  ]),
+  getItem('Social', '3', <TeamOutlined />),
 ]
 
 const NavMenu = () => {
-  const [selectedKey, setSelectedKey] = useState('')
+  const [selectedKeys, setSelectedKeys] = useState('')
+  const [defaultOpenKeys, setDefaultOpenKeys] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
   const path = location.pathname
@@ -24,35 +40,47 @@ const NavMenu = () => {
   useEffect(() => {
     switch (path) {
       case HOME:
-        setSelectedKey('1')
+        setSelectedKeys('1')
         break
       case RECOMMENDED:
-        setSelectedKey('2')
+        setDefaultOpenKeys('2')
+        setSelectedKeys('2.1')
+        break
+      case '':
+        setSelectedKeys('2.2')
         break
       case SOCIAL:
-        setSelectedKey('3')
+        setSelectedKeys('3')
         break
       default:
-        setSelectedKey('1')
+        setSelectedKeys('1')
     }
   }, [path])
 
   const handleClick = ({ key }) => {
     switch (key) {
       case '1':
-        setSelectedKey(key)
+        setSelectedKeys(key)
         navigate(HOME)
         break
       case '2':
-        setSelectedKey(key)
+        setSelectedKeys(key)
+        navigate(RECOMMENDED)
+        break
+      case '2.1':
+        setSelectedKeys(key)
+        navigate(RECOMMENDED)
+        break
+      case '2.2':
+        setSelectedKeys(key)
         navigate(RECOMMENDED)
         break
       case '3':
-        setSelectedKey(key)
+        setSelectedKeys(key)
         navigate(SOCIAL)
         break
       default:
-        setSelectedKey(key)
+        setSelectedKeys(key)
         navigate(HOME)
     }
   }
@@ -60,10 +88,12 @@ const NavMenu = () => {
   return (
     <div>
       <Menu
-        style={{ width: '192px', border: 'none' }}
-        selectedKeys={[`${selectedKey}`]}
-        items={menuItems}
+        defaultOpenKeys={[`${defaultOpenKeys}`]}
+        items={items}
+        mode='inline'
         onClick={handleClick}
+        selectedKeys={[`${selectedKeys}`]}
+        style={{ width: '200px', border: 'none' }}
       />
     </div>
   )
