@@ -14,7 +14,6 @@ const SelectGenres = () => {
         value: genre.seed,
         label: genre.name,
       }))
-      console.log(1)
       setGenres(genreOptions)
     }
 

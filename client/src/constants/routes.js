@@ -10,4 +10,5 @@ export const SIGNIN = '/signin'
 //App Routes
 export const HOME = '/'
 export const RECOMMENDED = '/recommended'
+export const NEW_RECOMMENDATION = `${RECOMMENDED}/new`
 export const SOCIAL = '/social'

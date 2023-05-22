@@ -5,8 +5,6 @@ import {
   AppstoreOutlined,
   HeartOutlined,
   TeamOutlined,
-  PlusOutlined,
-  HistoryOutlined,
 } from '@ant-design/icons'
 
 import { HOME, RECOMMENDED, SOCIAL } from '../../constants/routes'
@@ -23,76 +21,45 @@ const getItem = (label, key, icon, children, type) => {
 
 const items = [
   getItem('Dashboard', '1', <AppstoreOutlined />),
-  getItem('Recommended', '2', <HeartOutlined />, [
-    getItem('History', '2.1', <HistoryOutlined />),
-    getItem('New', '2.2', <PlusOutlined />),
-  ]),
+  getItem('Recommended', '2', <HeartOutlined />),
   getItem('Social', '3', <TeamOutlined />),
 ]
 
+const routeToKeys = {
+  [HOME]: { openKey: '', selectedKey: '1' },
+  [RECOMMENDED]: { openKey: '2', selectedKey: '2' },
+  [SOCIAL]: { openKey: '', selectedKey: '3' },
+}
+
+const keyToRoute = {
+  1: HOME,
+  2: RECOMMENDED,
+  3: SOCIAL,
+}
+
 const NavMenu = () => {
   const [selectedKeys, setSelectedKeys] = useState('')
-  const [defaultOpenKeys, setDefaultOpenKeys] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
   const path = location.pathname
 
   useEffect(() => {
-    switch (path) {
-      case HOME:
-        setSelectedKeys('1')
-        break
-      case RECOMMENDED:
-        setDefaultOpenKeys('2')
-        setSelectedKeys('2.1')
-        break
-      case '':
-        setSelectedKeys('2.2')
-        break
-      case SOCIAL:
-        setSelectedKeys('3')
-        break
-      default:
-        setSelectedKeys('1')
-    }
+    const keys = routeToKeys[path] || routeToKeys[HOME]
+    setSelectedKeys([keys.selectedKey])
   }, [path])
 
   const handleClick = ({ key }) => {
-    switch (key) {
-      case '1':
-        setSelectedKeys(key)
-        navigate(HOME)
-        break
-      case '2':
-        setSelectedKeys(key)
-        navigate(RECOMMENDED)
-        break
-      case '2.1':
-        setSelectedKeys(key)
-        navigate(RECOMMENDED)
-        break
-      case '2.2':
-        setSelectedKeys(key)
-        navigate(RECOMMENDED)
-        break
-      case '3':
-        setSelectedKeys(key)
-        navigate(SOCIAL)
-        break
-      default:
-        setSelectedKeys(key)
-        navigate(HOME)
-    }
+    console.log(key)
+    setSelectedKeys(key)
+    navigate(keyToRoute[key] || HOME)
   }
 
   return (
     <div>
       <Menu
-        defaultOpenKeys={[`${defaultOpenKeys}`]}
         items={items}
-        mode='inline'
         onClick={handleClick}
-        selectedKeys={[`${selectedKeys}`]}
+        selectedKeys={selectedKeys}
         style={{ width: '200px', border: 'none' }}
       />
     </div>
