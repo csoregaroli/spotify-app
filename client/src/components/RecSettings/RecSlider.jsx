@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { Slider, Typography } from 'antd'
 const { Title } = Typography
 
-const RecSlider = ({ title }) => {
+const RecSlider = ({ title, cb }) => {
   const defaultValue = 50
   const [target, setTarget] = useState(defaultValue)
 
   const handleChange = (value) => {
     setTarget(value)
+    cb(title.toLowerCase(), value)
   }
 
   return (

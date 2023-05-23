@@ -11,4 +11,5 @@ export const SIGNIN = '/signin'
 export const HOME = '/'
 export const RECOMMENDED = '/recommended'
 export const NEW_RECOMMENDATION = `${RECOMMENDED}/new`
+export const RECOMMENDATION_HISTORY = `${RECOMMENDED}/history`
 export const SOCIAL = '/social'

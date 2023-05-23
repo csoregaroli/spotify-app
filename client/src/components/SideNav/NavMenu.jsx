@@ -49,7 +49,6 @@ const NavMenu = () => {
   }, [path])
 
   const handleClick = ({ key }) => {
-    console.log(key)
     setSelectedKeys(key)
     navigate(keyToRoute[key] || HOME)
   }

@@ -1,17 +1,21 @@
+import { Button } from 'antd'
 import { Hero } from '../components/Dashboard/Hero'
 
-import SelectGenres from '../components/SelectGenres'
-import RecOptions from '../components/RecSettings/RecOptions'
+import NewRecommendation from '../components/RecSettings/NewRecommendation'
+import { useState } from 'react'
 
 export const Recommended = () => {
-  const pageHeader = 'Generate new recommendations'
+  const [isOpen, setIsOpen] = useState(false)
+
+  const pageHeader = 'Recommended Tracks'
 
   return (
     <div>
       <Hero titleText={pageHeader} />
-      <SelectGenres />
-      <div style={{ marginBottom: '48px' }} />
-      <RecOptions />
+      <Button type='primary' onClick={() => setIsOpen(true)}>
+        Open modal
+      </Button>
+      <NewRecommendation isOpen={isOpen} />
     </div>
   )
 }
