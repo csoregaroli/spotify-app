@@ -25,7 +25,7 @@ const SelectGenres = ({ cb }) => {
   return (
     <div style={{ marginTop: '16px' }}>
       <div style={{ marginBottom: '8px' }}>
-        <Typography.Text>Select a genre</Typography.Text>
+        <Typography.Text>Genre</Typography.Text>
       </div>
       <Select
         placeholder='Select a genre'

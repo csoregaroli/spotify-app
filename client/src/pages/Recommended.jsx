@@ -15,7 +15,12 @@ export const Recommended = () => {
       <Button type='primary' onClick={() => setIsOpen(true)}>
         Open modal
       </Button>
-      <NewRecommendation isOpen={isOpen} />
+      <NewRecommendation
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false)
+        }}
+      />
     </div>
   )
 }

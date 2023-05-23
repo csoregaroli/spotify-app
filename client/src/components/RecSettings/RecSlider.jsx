@@ -5,13 +5,14 @@ const RecSlider = ({ title, cb }) => {
   const defaultValue = 50
 
   const handleChange = (value) => {
-    cb(title.toLowerCase(), value)
+    const convertedValue = title !== 'Popularity' ? value / 100 : value
+    cb(title.toLowerCase(), convertedValue)
   }
 
   return (
     <div style={{ marginTop: '16px' }}>
       <div>
-        <Text>Target {title}</Text>
+        <Text>{title}</Text>
       </div>
       <Slider defaultValue={defaultValue} onChange={handleChange} />
     </div>
