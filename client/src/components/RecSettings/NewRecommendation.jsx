@@ -68,9 +68,7 @@ const NewRecommendation = ({ isOpen, onClose }) => {
       }
     })
 
-    setSliderValues(newSliderValues)
-
-    const response = await getRecommendations(selectedGenre, sliderValues)
+    const response = await getRecommendations(selectedGenre, newSliderValues)
 
     if (response?.status === 200) {
       setDisplayNotification({ type: 'success' })
