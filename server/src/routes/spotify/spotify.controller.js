@@ -139,13 +139,13 @@ async function httpGetRecommendations(req, res) {
   if (!accessToken)
     return res.status(401).json({ error: 'No access token provided' })
 
-  if (!reqSeedArtists || !reqSeedGenres || !reqSeedTracks)
+  if (!reqSeedArtists && !reqSeedGenres && !reqSeedTracks)
     return res.status(400).json({ error: 'Missing required request query' })
 
   const requestOptions = {
-    seedArtists: `seed_artists=${reqSeedArtists}`,
+    // seedArtists: `seed_artists=${reqSeedArtists}`,
     seedGenres: `seed_genres=${reqSeedGenres}`,
-    seedTracks: `seed_tracks=${reqSeedTracks}`,
+    // seedTracks: `seed_tracks=${reqSeedTracks}`,
     targetAcousticness: `target_acousticness=${acousticness}`,
     targetDanceability: `target_danceability=${danceability}`,
     targetEnergy: `target_energy=${energy}`,

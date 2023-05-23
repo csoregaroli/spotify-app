@@ -9,61 +9,57 @@ import {
 
 import { HOME, RECOMMENDED, SOCIAL } from '../../constants/routes'
 
-const menuItems = [
-  { label: 'Dashboard', key: '1', icon: <AppstoreOutlined /> },
-  { label: 'Recommended', key: '2', icon: <HeartOutlined /> },
-  { label: 'Social', key: '3', icon: <TeamOutlined /> },
+const getItem = (label, key, icon, children, type) => {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  }
+}
+
+const items = [
+  getItem('Dashboard', '1', <AppstoreOutlined />),
+  getItem('Recommended', '2', <HeartOutlined />),
+  getItem('Social', '3', <TeamOutlined />),
 ]
 
+const routeToKeys = {
+  [HOME]: { openKey: '', selectedKey: '1' },
+  [RECOMMENDED]: { openKey: '2', selectedKey: '2' },
+  [SOCIAL]: { openKey: '', selectedKey: '3' },
+}
+
+const keyToRoute = {
+  1: HOME,
+  2: RECOMMENDED,
+  3: SOCIAL,
+}
+
 const NavMenu = () => {
-  const [selectedKey, setSelectedKey] = useState('')
+  const [selectedKeys, setSelectedKeys] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
   const path = location.pathname
 
   useEffect(() => {
-    switch (path) {
-      case HOME:
-        setSelectedKey('1')
-        break
-      case RECOMMENDED:
-        setSelectedKey('2')
-        break
-      case SOCIAL:
-        setSelectedKey('3')
-        break
-      default:
-        setSelectedKey('1')
-    }
+    const keys = routeToKeys[path] || routeToKeys[HOME]
+    setSelectedKeys([keys.selectedKey])
   }, [path])
 
   const handleClick = ({ key }) => {
-    switch (key) {
-      case '1':
-        setSelectedKey(key)
-        navigate(HOME)
-        break
-      case '2':
-        setSelectedKey(key)
-        navigate(RECOMMENDED)
-        break
-      case '3':
-        setSelectedKey(key)
-        navigate(SOCIAL)
-        break
-      default:
-        setSelectedKey(key)
-        navigate(HOME)
-    }
+    setSelectedKeys(key)
+    navigate(keyToRoute[key] || HOME)
   }
 
   return (
     <div>
       <Menu
-        style={{ width: '192px', border: 'none' }}
-        selectedKeys={[`${selectedKey}`]}
-        items={menuItems}
+        items={items}
         onClick={handleClick}
+        selectedKeys={selectedKeys}
+        style={{ width: '200px', border: 'none' }}
       />
     </div>
   )

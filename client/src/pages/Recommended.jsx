@@ -1,12 +1,26 @@
-import SelectGenres from '../components/SelectGenres'
-import RecOptions from '../components/RecSettings/RecOptions'
+import { Button } from 'antd'
+import { Hero } from '../components/Dashboard/Hero'
+
+import NewRecommendation from '../components/RecSettings/NewRecommendation'
+import { useState } from 'react'
 
 export const Recommended = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const pageHeader = 'Recommended Tracks'
+
   return (
     <div>
-      <SelectGenres />
-      <div style={{ marginBottom: '48px' }} />
-      <RecOptions />
+      <Hero titleText={pageHeader} />
+      <Button type='primary' onClick={() => setIsOpen(true)}>
+        Open modal
+      </Button>
+      <NewRecommendation
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false)
+        }}
+      />
     </div>
   )
 }

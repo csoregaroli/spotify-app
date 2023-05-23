@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/csoregaroli/spotify-app/issues"
   },
-  "homepage": "https://github.com/csoregaroli/spotify-app#readme"
+  "homepage": "https://github.com/csoregaroli/spotify-app#readme",
+  "dependencies": {
+    "antd": "^5.5.1"
+  }
 }

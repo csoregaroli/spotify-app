@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Select } from 'antd'
+import { Select, Typography } from 'antd'
 
 import { getGenres } from '../api/reads'
 
-const SelectGenres = () => {
+const SelectGenres = ({ cb }) => {
   const [genres, setGenres] = useState([])
-  const [selectedGenre, setSelectedGenre] = useState(null)
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -14,24 +13,27 @@ const SelectGenres = () => {
         value: genre.seed,
         label: genre.name,
       }))
-      console.log(1)
       setGenres(genreOptions)
     }
-
     fetchGenres()
   }, [])
 
   const handleChange = (value) => {
-    setSelectedGenre(value)
+    cb(value)
   }
 
   return (
-    <Select
-      placeholder='Select a genre'
-      options={genres}
-      style={{ width: '100%' }}
-      onChange={handleChange}
-    />
+    <div style={{ marginTop: '16px' }}>
+      <div style={{ marginBottom: '8px' }}>
+        <Typography.Text>Genre</Typography.Text>
+      </div>
+      <Select
+        placeholder='Select a genre'
+        options={genres}
+        style={{ width: '100%' }}
+        onChange={handleChange}
+      />
+    </div>
   )
 }
 
