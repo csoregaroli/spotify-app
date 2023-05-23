@@ -16,11 +16,12 @@ const customizations = [
 const modalTitle = 'Generate new recommendations'
 
 const NewRecommendation = ({ isOpen, onClose }) => {
-  //   const [api, contextHolder] = notification.useNotification()
   const [displayNotification, setDisplayNotification] = useState(null)
   const [selectedGenre, setSelectedGenre] = useState()
   const [sliderValues, setSliderValues] = useState()
   const [confirmLoading, setConfirmLoading] = useState(false)
+
+  const buttonDisabled = !selectedGenre ? true : false
 
   const successNotification = () => {
     notification.success({
@@ -37,10 +38,6 @@ const NewRecommendation = ({ isOpen, onClose }) => {
     })
   }
 
-  const saveSliderValue = (title, value) => {
-    setSliderValues({ ...sliderValues, [title]: value })
-  }
-
   useEffect(() => {
     if (displayNotification) {
       if (displayNotification.type === 'success') {
@@ -52,8 +49,27 @@ const NewRecommendation = ({ isOpen, onClose }) => {
     }
   }, [displayNotification])
 
+  const saveSliderValue = (title, value) => {
+    setSliderValues({ ...sliderValues, [title]: value })
+  }
+
   const handleSubmit = async () => {
     setConfirmLoading(true)
+    const newSliderValues = { ...sliderValues }
+
+    customizations.forEach((customization) => {
+      const formattedKey = customization.toLowerCase()
+      if (!sliderValues || !(formattedKey in sliderValues)) {
+        if (formattedKey !== 'popularity') {
+          newSliderValues[formattedKey] = 0.5
+        } else if (formattedKey === 'popularity') {
+          newSliderValues[formattedKey] = 50
+        }
+      }
+    })
+
+    setSliderValues(newSliderValues)
+
     const response = await getRecommendations(selectedGenre, sliderValues)
 
     if (response?.status === 200) {
@@ -77,6 +93,7 @@ const NewRecommendation = ({ isOpen, onClose }) => {
             type='primary'
             onClick={handleSubmit}
             loading={confirmLoading}
+            disabled={buttonDisabled}
           >
             Generate
           </Button>,

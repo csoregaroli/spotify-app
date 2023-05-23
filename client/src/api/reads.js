@@ -49,7 +49,6 @@ export const getRecommendations = async (genre, targets) => {
     .join('&')
 
   const requestQuery = `?reqSeedGenres=${genre}&${targetValues}`
-  // console.log(requestQuery)
 
   const response = await axios.get(
     spotifyEndpoints + '/recommendations' + requestQuery,
