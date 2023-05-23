@@ -1,20 +1,17 @@
-import { useState } from 'react'
 import { Slider, Typography } from 'antd'
-const { Title } = Typography
+const { Text } = Typography
 
 const RecSlider = ({ title, cb }) => {
   const defaultValue = 50
-  const [target, setTarget] = useState(defaultValue)
 
   const handleChange = (value) => {
-    setTarget(value)
     cb(title.toLowerCase(), value)
   }
 
   return (
-    <div>
+    <div style={{ marginTop: '16px' }}>
       <div>
-        <Title level={5}>Target {title}</Title>
+        <Text>Target {title}</Text>
       </div>
       <Slider defaultValue={defaultValue} onChange={handleChange} />
     </div>

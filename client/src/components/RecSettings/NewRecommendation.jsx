@@ -5,30 +5,34 @@ import SelectGenres from '../SelectGenres'
 import RecSlider from './RecSlider'
 
 const customizations = [
-  'Acousticness',
-  'Danceability',
-  'Energy',
-  'Instrumentalness',
-  'Popularity',
+  'acousticness',
+  'danceability',
+  'energy',
+  'instrumentalness',
+  'popularity',
 ]
 
-const NewRecommendation = ({ isOpen }) => {
-  const [targetCustomizations, setTargetCustomizations] = useState()
+const modalTitle = 'Generate new recommendations'
 
-  const saveCustomization = (title, value) => {
-    console.log(title, value)
-    setTargetCustomizations({ ...targetCustomizations, [title]: value })
+const NewRecommendation = ({ isOpen }) => {
+  const [selectedGenre, setSelectedGenre] = useState()
+  const [sliderValues, setSliderValues] = useState()
+
+  const saveSliderValue = (title, value) => {
+    setSliderValues({ ...sliderValues, [title]: value })
   }
 
   return (
-    <Modal open={isOpen}>
-      <SelectGenres />
-      <div>
-        {customizations.map((customization) => (
-          <RecSlider title={customization} cb={saveCustomization} />
-        ))}
-      </div>
-    </Modal>
+    <div>
+      <Modal open={isOpen} title={modalTitle}>
+        <div style={{ marginBottom: '32px' }}>
+          <SelectGenres cb={setSelectedGenre} />
+          {customizations.map((customization) => (
+            <RecSlider title={customization} cb={saveSliderValue} />
+          ))}
+        </div>
+      </Modal>
+    </div>
   )
 }
 
