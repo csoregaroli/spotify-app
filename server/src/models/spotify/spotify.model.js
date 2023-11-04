@@ -8,7 +8,6 @@ async function addRecsToFirestore(userId, recommendedTracks) {
   const tracksCollectionRef = collection(db, 'tracks')
   for (track of recommendedTracks) {
     const trackDocRef = doc(tracksCollectionRef, track.id)
-    console.log(trackDocRef)
     const trackSnapshot = await getDoc(trackDocRef)
     if (!trackSnapshot.exists()) {
       batch.set(trackDocRef, track)
