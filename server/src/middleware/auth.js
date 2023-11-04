@@ -17,7 +17,7 @@ function checkAuthentication(req, res, next) {
   })
 }
 
-async function checkAccessToken(req, res, next) {
+async function refreshAccessToken(req, res, next) {
   const refreshToken = req.session.refreshToken
   const expirationTime = req.session.expirationTime
   const currentTime = Date.now()
@@ -55,4 +55,13 @@ async function checkAccessToken(req, res, next) {
   return next()
 }
 
-module.exports = { checkAuthentication, checkAccessToken }
+async function checkAccessToken(req, res, next) {
+  const accessToken = req.session.accessToken
+
+  if (!accessToken)
+    return res.status(401).json({ error: 'No access token provided' })
+
+  return next()
+}
+
+module.exports = { checkAuthentication, refreshAccessToken, checkAccessToken }

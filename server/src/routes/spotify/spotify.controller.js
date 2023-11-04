@@ -13,9 +13,6 @@ const SPOTIFY_RECOMMENDATIONS_URL = 'https://api.spotify.com/v1/recommendations'
 async function httpGetCurrentTrack(req, res) {
   const accessToken = req.session.accessToken
 
-  if (!accessToken)
-    return res.status(401).json({ error: 'No access token provided' })
-
   try {
     const response = await axios.get(
       SPOTIFY_PLAYER_URL + '/currently-playing',
@@ -62,9 +59,6 @@ async function httpGetTopItems(req, res) {
   const time_range = req.query.time_range || 'medium_term'
 
   const VALID_TYPES = ['tracks', 'artists']
-
-  if (!accessToken)
-    return res.status(401).json({ error: 'invalid access token' })
 
   if (!VALID_TYPES.includes(type))
     return res.status(400).json({ error: 'invalid type' })
@@ -136,9 +130,6 @@ async function httpGetRecommendations(req, res) {
     popularity,
   } = req.query
 
-  if (!accessToken)
-    return res.status(401).json({ error: 'No access token provided' })
-
   if (!reqSeedArtists && !reqSeedGenres && !reqSeedTracks)
     return res.status(400).json({ error: 'Missing required request query' })
 
@@ -181,8 +172,8 @@ async function httpGetRecommendations(req, res) {
       return recommendedtrack
     })
 
-    res.status(200).json(recommendedTracks)
-    return await addRecsToFirestore(userId, recommendedTracks)
+    await addRecsToFirestore(userId, recommendedTracks)
+    return res.status(200).json(recommendedTracks)
   } catch (err) {
     console.log(err)
     return res.status(400).json({ error: 'Could not generate recommendations' })
@@ -191,9 +182,6 @@ async function httpGetRecommendations(req, res) {
 
 async function httpGetGenres(req, res) {
   const accessToken = req.session.accessToken
-
-  if (!accessToken)
-    return res.status(401).json({ error: 'No access token provided' })
 
   try {
     const response = await axios.get(
