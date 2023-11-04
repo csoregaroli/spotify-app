@@ -1,10 +1,7 @@
 const axios = require('axios')
 
 const { convertArtistsToArray } = require('./spotify.utils')
-const {
-  addRecsToFirestore,
-  addTracksToFirestore,
-} = require('../../models/spotify/spotify.model')
+const { addRecsToFirestore } = require('../../models/spotify/spotify.model')
 const { addGenresToFirestore } = require('../../models/spotify/genres.model')
 
 //SPOTIFY API ENDPOINTS
@@ -191,9 +188,6 @@ async function httpGetRecommendations(req, res) {
 
 async function httpGetGenres(req, res) {
   const accessToken = req.session.accessToken
-
-  // if (!accessToken)
-  //   return res.status(401).json({ error: 'No access token provided' })
 
   try {
     const response = await axios.get(
