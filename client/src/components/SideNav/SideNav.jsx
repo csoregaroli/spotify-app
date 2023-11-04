@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom'
+import { HOME } from '../../constants/routes'
 import SongbirdLogo from '../../assets/Songbird.png'
-
 import NavMenu from './NavMenu'
 
 const SideNav = () => {
+  const navigate = useNavigate()
+
   return (
     <div style={{ marginRight: '32px' }}>
       <div
@@ -12,7 +15,9 @@ const SideNav = () => {
           height: '48px',
           display: 'flex',
           alignItems: 'center',
+          cursor: 'pointer',
         }}
+        onClick={() => navigate(HOME)}
       >
         <img
           src={SongbirdLogo}
