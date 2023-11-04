@@ -2,29 +2,42 @@ const { doc, getDoc, collection, writeBatch } = require('firebase/firestore')
 const db = require('../../services/firebase')
 
 async function addRecsToFirestore(userId, recommendedTracks) {
-  const userRef = doc(db, 'users', userId)
-  const recRef = collection(userRef, 'recommendations')
   const batch = writeBatch(db)
 
-  //check for tracks
-
-  //create new tracks
-
-  //check for recs
-
-  //create new recs
+  //Check the "tracks" root collection and add new tracks if they don't exist
+  const tracksCollectionRef = collection(db, 'tracks')
   for (track of recommendedTracks) {
-    const recSnapshot = await getDoc(doc(recRef, track.id))
-    if (!recSnapshot.exists()) {
-      batch.set(doc(recRef, track.id), track)
+    const trackDocRef = doc(tracksCollectionRef, track.id)
+    console.log(trackDocRef)
+    const trackSnapshot = await getDoc(trackDocRef)
+    if (!trackSnapshot.exists()) {
+      batch.set(trackDocRef, track)
     }
   }
 
+  //Check the "recommendations" subcollection and add new recommendations if they don't exist
+  const recommendationsCollectionRef = collection(
+    db,
+    `users/${userId}/recommendations`
+  )
+  for (track of recommendedTracks) {
+    const recommendationDocRef = doc(recommendationsCollectionRef, track.id)
+    const recommendationDoc = await getDoc(recommendationDocRef)
+    if (!recommendationDoc.exists()) {
+      batch.set(recommendationDocRef, {
+        track: track.id,
+        created: new Date(),
+      })
+    }
+  }
+
+  // Commit the batch
   try {
+    console.log('Track recommendations updated successfully.')
     return await batch.commit()
-  } catch (err) {
-    console.log(err)
-    return err
+  } catch (error) {
+    console.error('Error updating track recommendations:', error)
+    throw error
   }
 }
 

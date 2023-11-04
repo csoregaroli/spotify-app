@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Menu } from 'antd'
-import {
-  AppstoreOutlined,
-  HeartOutlined,
-  TeamOutlined,
-} from '@ant-design/icons'
+import { HomeOutlined, HeartOutlined, TeamOutlined } from '@ant-design/icons'
 
 import { HOME, RECOMMENDED, SOCIAL } from '../../constants/routes'
 
@@ -20,7 +16,7 @@ const getItem = (label, key, icon, children, type) => {
 }
 
 const items = [
-  getItem('Dashboard', '1', <AppstoreOutlined />),
+  getItem('Dashboard', '1', <HomeOutlined />),
   getItem('Recommended', '2', <HeartOutlined />),
   getItem('Social', '3', <TeamOutlined />),
 ]
