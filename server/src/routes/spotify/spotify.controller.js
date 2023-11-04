@@ -60,9 +60,6 @@ async function httpGetTopItems(req, res) {
 
   const VALID_TYPES = ['tracks', 'artists']
 
-  // if (!accessToken)
-  //   return res.status(401).json({ error: 'invalid access token' })
-
   if (!VALID_TYPES.includes(type))
     return res.status(400).json({ error: 'invalid type' })
 
@@ -132,9 +129,6 @@ async function httpGetRecommendations(req, res) {
     instrumentalness,
     popularity,
   } = req.query
-
-  // if (!accessToken)
-  //   return res.status(401).json({ error: 'No access token provided' })
 
   if (!reqSeedArtists && !reqSeedGenres && !reqSeedTracks)
     return res.status(400).json({ error: 'Missing required request query' })

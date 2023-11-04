@@ -4,7 +4,7 @@ const db = require('../../services/firebase')
 async function addRecsToFirestore(userId, recommendedTracks) {
   const batch = writeBatch(db)
 
-  //Check the "tracks" root collection and add new tracks if they don't exist
+  //Check the "tracks" collection and add new tracks if they don't exist
   const tracksCollectionRef = collection(db, 'tracks')
   for (track of recommendedTracks) {
     const trackDocRef = doc(tracksCollectionRef, track.id)
@@ -25,7 +25,7 @@ async function addRecsToFirestore(userId, recommendedTracks) {
     const recommendationDoc = await getDoc(recommendationDocRef)
     if (!recommendationDoc.exists()) {
       batch.set(recommendationDocRef, {
-        track: track.id,
+        id: track.id,
         created: new Date(),
       })
     }
