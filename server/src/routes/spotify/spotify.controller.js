@@ -1,7 +1,10 @@
 const axios = require('axios')
 
 const { convertArtistsToArray } = require('./spotify.utils')
-const { addRecsToFirestore } = require('../../models/spotify/spotify.model')
+const {
+  addRecsToFirestore,
+  addTracksToFirestore,
+} = require('../../models/spotify/spotify.model')
 const { addGenresToFirestore } = require('../../models/spotify/genres.model')
 
 //SPOTIFY API ENDPOINTS
@@ -12,9 +15,6 @@ const SPOTIFY_RECOMMENDATIONS_URL = 'https://api.spotify.com/v1/recommendations'
 //ENDPOINTS
 async function httpGetCurrentTrack(req, res) {
   const accessToken = req.session.accessToken
-
-  if (!accessToken)
-    return res.status(401).json({ error: 'No access token provided' })
 
   try {
     const response = await axios.get(
@@ -63,8 +63,8 @@ async function httpGetTopItems(req, res) {
 
   const VALID_TYPES = ['tracks', 'artists']
 
-  if (!accessToken)
-    return res.status(401).json({ error: 'invalid access token' })
+  // if (!accessToken)
+  //   return res.status(401).json({ error: 'invalid access token' })
 
   if (!VALID_TYPES.includes(type))
     return res.status(400).json({ error: 'invalid type' })
@@ -136,8 +136,8 @@ async function httpGetRecommendations(req, res) {
     popularity,
   } = req.query
 
-  if (!accessToken)
-    return res.status(401).json({ error: 'No access token provided' })
+  // if (!accessToken)
+  //   return res.status(401).json({ error: 'No access token provided' })
 
   if (!reqSeedArtists && !reqSeedGenres && !reqSeedTracks)
     return res.status(400).json({ error: 'Missing required request query' })
@@ -192,8 +192,8 @@ async function httpGetRecommendations(req, res) {
 async function httpGetGenres(req, res) {
   const accessToken = req.session.accessToken
 
-  if (!accessToken)
-    return res.status(401).json({ error: 'No access token provided' })
+  // if (!accessToken)
+  //   return res.status(401).json({ error: 'No access token provided' })
 
   try {
     const response = await axios.get(

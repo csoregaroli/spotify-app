@@ -6,6 +6,13 @@ async function addRecsToFirestore(userId, recommendedTracks) {
   const recRef = collection(userRef, 'recommendations')
   const batch = writeBatch(db)
 
+  //check for tracks
+
+  //create new tracks
+
+  //check for recs
+
+  //create new recs
   for (track of recommendedTracks) {
     const recSnapshot = await getDoc(doc(recRef, track.id))
     if (!recSnapshot.exists()) {
@@ -21,4 +28,6 @@ async function addRecsToFirestore(userId, recommendedTracks) {
   }
 }
 
-module.exports = { addRecsToFirestore }
+module.exports = {
+  addRecsToFirestore,
+}
