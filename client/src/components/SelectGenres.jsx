@@ -30,6 +30,7 @@ const SelectGenres = ({ cb }) => {
       <Select
         placeholder='Select a genre'
         options={genres}
+        showSearch={true}
         style={{ width: '100%' }}
         onChange={handleChange}
       />
